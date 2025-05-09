@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>📊 تقييم البيانات</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.9.1/summernote-lite.min.css" integrity="sha512-ySljI0ZbsJxjJIpfsg+7ZJOyKzBduAajCJpc4mBiVpGDPln2jVQ0kwYu3e2QQM5fwxLp6VSVaJm8XCK9uWD4uA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+        .rating-section {
+    background: #f9f9ff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 900px;
+    margin: 30px auto;
+}
+
+.rating-header {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #5a1ebf;
+}
+
+.rating-question {
+    margin-bottom: 30px;
+}
+
+.rating-question label {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.rating-question label::before {
+    content: "📌";
+    margin-left: 8px;
+}
+
+.rating-data {
+    margin-top: 10px;
+}
+
+.rating-data span {
+    display: inline-block;
+    background: #ede8fc;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 18px;
+    color: #5a1ebf;
+    box-shadow: 0 2px 6px rgba(125, 42, 232, 0.1);
+    transition: 0.3s;
+    margin-bottom: 10px;
+}
+
+.rating-data span:hover {
+    background: #d9ccf5;
+    transform: scale(1.03);
+}
+
+        .message-section {
+    background-color: #f4f0fd;
+    border-right: 5px solid #7d2ae8;
+    padding: 15px;
+    margin-bottom: 20px;
+    white-space: pre-wrap;
+    border-radius: 10px;
+    max-height: 300px; /* ✅ Control height */
+    overflow-y: auto;  /* ✅ Scroll inside only if needed */
+    font-size: 18px; /* ✅ Better readable size */
+    line-height: 1.8; /* ✅ More space between lines */
+    color: #333; /* ✅ Better text color */
+}
+.message-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.message-section::-webkit-scrollbar-thumb {
+    background: #7d2ae8;
+    border-radius: 4px;
+}
+
+.message-section::-webkit-scrollbar-track {
+    background: #f4f0fd;
+}
+
+
+.page-wrapper {
+    min-height: 100vh; /* ✅ غصبًا يصير طول الصفحة على قد الشاشة */
+    display: flex;
+    flex-direction: column;
+}
+
+#rating-section {
+    flex: 1; /* ✅ يخليه يتمدد وياخذ باقي المساحة */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+    .top-buttons {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Align labels to the right */
+#sendDataModal label {
+    display: block; /* Ensures it takes full width */
+    text-align: right; /* Align text to the right */
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+#sendDataModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* ✅ زيدنا الحجم من 45% إلى 60% */
+    max-width: 800px; /* ✅ زودنا الحد الأعلى */
+    background-color: white;
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+     height: 85vh;              /* 🔹 يزيد الطول كنسبة من ارتفاع الشاشة */
+    max-height: 95vh;          /* 🔹 حد أقصى للطول */
+    overflow-y: auto;
+}
+
+
+/* Email Modal Header */
+#sendDataModal h2 {
+    font-size: 24px;
+    color: #7d2ae8;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Email Modal Close Button */
+#sendDataModal .close {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+#sendDataModal .close:hover {
+    color: #9B7EBD;
+}
+
+#sendDataModal .modal-content{
+    border: none !important;
+}
+
+/* Input Fields */
+#sendDataModal input,
+#sendDataModal textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+#sendDataModal input:focus,
+#sendDataModal textarea:focus {
+    border-color: #7d2ae8;
+    outline: none;
+}
+
+/* Textarea Improvements */
+#sendDataModal textarea {
+    height: 320px; /* كان 200px */
+    resize: none;
+    font-family: "Tajawal", sans-serif;
+    line-height: 1.9;
+    background-color: #f9f9f9;
+    padding: 18px;
+    color: #333;
+    font-size: 16px;
+
+}
+
+/* Highlighted File Display */
+#selected-file-message {
+    font-size: 14px;
+    color: #198754;
+    background: #eefbf3;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    border: 1px solid #198754;
+}
+
+#selected-file-message i {
+    margin-left: 5px;
+    color: #198754;
+}
+
+/* Submit Button */
+#sendDataModal .submit-button {
+    background-color: #7d2ae8;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 12px;
+    width: 100%;
+    padding: 14px;
+    font-size: 19px;
+}
+
+#sendDataModal .submit-button:hover {
+    background-color: #9B7EBD;
+    transform: scale(1.02);
+}
+
+#sendDataModal .submit-button:active {
+    transform: scale(0.98);
+}
+
+.btn-rate {
+    margin-bottom: 0 !important;
+}
+    .option-btn input[type="radio"] {
+    display: none;
+}
+
+.option-btn.selected {
+    background-color: #7d2ae8 !important;
+    color: white;
+}
+
+
+        *{
+            font-family: 'Poppins', sans-serif;
+
+        }
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+}
+
+        footer {
+  background: radial-gradient(circle, #281F54, #7d2ae8);
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  margin-top: auto; /* 🔥 هذا يخلي الفوتر ينزل لتحت */
+  padding: 20px 0;
+}
+
+
+        footer .footer-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer .footer-content div {
+            margin-bottom: 10px;
+        }
+
+        footer h3 {
+            margin-bottom: 10px;
+            font-size: 19px;
+
+
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer .social-icons a {
+            font-size: 24px;
+            margin-right: 10px;
+            color: #fff;
+        }
+
+        footer .social-icons a:hover {
+            color: #ccc;
+        }
+
+        footer .footer-content div p {
+            max-width: 300px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        footer p {
+            font-size: 14px;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+/* الهيدر */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    padding: 20px 50px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 47px;
+    direction: rtl; /* ضروري لأنك تستخدم RTL */
+}
+
+
+/* أقسام الهيدر الثلاثة */
+.header > .logo {
+    order: 1;
+}
+
+.header > .nav-container {
+    order: 2;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%);
+}
+
+
+.header > .profile-icon {
+    order: 3;
+}
+
+/* اللوقو */
+.logo img {
+    width: 120px;
+    height: auto;
+}
+
+
+
+.nav-links a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.nav-links a:hover {
+    color: #007bff;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    background: #007bff;
+    transition: width 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0;         /* 🔁 أزل السالب */
+    margin-right: auto;     /* 🔁 يدفعه لأقصى اليسار */
+}
+
+
+
+.profile-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+
+#rating-section {
+    margin-top: 0px !important;
+}
+
+
+
+        .rating-question label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 20px; /* أكبر */
+}
+
+input[type="text"],
+textarea,
+select {
+    font-size: 18px;
+}
+
+.option-btn {
+    background-color: #ede8fc;
+    border: 2px solid #7d2ae8;
+    border-radius: 25px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+.dropdown-toggle::after
+{
+display: none;
+}
+
+.note-color-all
+{
+    direction: ltr !important;
+}
+
+.btn-submit {
+    background: linear-gradient(to left, #6c63ff, #7d2ae8);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 14px 32px;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: 0.3s ease-in-out;
+    margin: 30px auto 0;
+    display: block;
+}
+
+.btn-submit:hover {
+    background: linear-gradient(to right, #6c63ff, #7d2ae8);
+    transform: scale(1.03);
+}
+
+        .rating-section {
+    background: #f1ecfc;
+    padding: 25px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 850px;
+    margin: 20px auto;
+}
+
+.option-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+
+
+.option-btn:hover {
+    background-color: #d8c8f6;
+    color: #000;
+}
+
+
+
+.option-btn input[type="radio"]:checked {
+    accent-color: #7d2ae8;
+}
+
+.option-btn input[type="radio"] {
+    display: none;
+}
+
+.option-btn.selected {
+    background-color: #7d2ae8 !important;
+    color: white;
+    border-color: #5a1ebf;
+}
+
+.option-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: 0.3s;
+    border: 2px solid #7d2ae8;
+    background-color: #ede8fc;
+    cursor: pointer;
+    font-size: 16px;
+}
+.stylish-select {
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    transition: 0.3s;
+}
+
+.stylish-select:focus {
+    border-color: #7d2ae8;
+    box-shadow: 0 0 0 0.2rem rgba(125, 42, 232, 0.2);
+}
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9ff;
+            display: flex;
+    flex-direction: column;
+        }
+
+        .main-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 38px;
+            margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            table-layout: fixed;
+            border: 2px solid black;
+        }
+
+        .custom-table th, .custom-table td {
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+            border-left: 1px solid #ccc;
+            word-wrap: break-word;
+        }
+
+        .custom-table th {
+            background-color: #7d2ae8;
+            color: white;
+            font-weight: bold;
+        }
+
+        .custom-table tr:nth-child(even) {
+            background-color: #ede8fc;
+        }
+
+        .custom-table tr:nth-child(odd) {
+            background-color: #f4f0fd;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .page-btn, .btn-rate {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .page-btn:hover, .btn-rate:hover {
+            background-color: #0056b3;
+        }
+
+        #page-number {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+
+        .message-section {
+            background-color: #f4f0fd;
+            border-right: 5px solid #7d2ae8;
+            padding: 15px;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            border-radius: 10px;
+        }
+
+        .message-header {
+            background-color: #f1ecfc;
+            border: 1px solid #d3c1f1;
+            padding: 14px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            color: #000;
+            font-size: 30px;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+
+        .message-header svg {
+            transition: transform 0.3s;
+        }
+
+        .top-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-download {
+            background-color: #7d2ae8;
+            border: none;
+            color: white;
+            font-size: 16px;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .rating-section {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 70px;
+            background: #f1ecfc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .rating-question {
+            margin-bottom: 20px;
+        }
+
+        .rating-question label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .rating-question input[type="radio"] {
+            margin-left: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .note-table
+        {
+        direction: ltr !important;
+        }
+
+        .rating-data
+        {
+            padding-top: 5px;
+            padding-right: 35px;
+            padding-left: 20px;
+        }
+        .rating-data span{
+            font-size: 20px;
+            display:list-item;
+        }
+    </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+ <!-- Header -->
+    <div class="header">
+<div style="height: 20px;"></div>
+        <div class="logo">
+            <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo.jpeg') }}" alt="Bayyin logo"></a>
+        </div>
+        <div class="nav-container">
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">الصفحة الرئيسية</a>
+        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">تسجيل خروج</a>
+    </div>
+    <div class="profile-icon">
+        <a href="{{ url_for('profile') }}">
+            <img src="{{ url_for('static', filename='images/account.png') }}" alt="Profile Icon">
+        </a>
+    </div>
+        </div>
+    </div>
+  {% if error %}
+    <!-- If there is an error, show only the error -->
+    <div class="rating-section text-center">
+        {{ error }}
+    </div>
+{% else %}
+    <!-- If there is NO error, show all the data -->
+
+<!-- 🔵 قسم البريد الإلكتروني -->
+<div class="info-card mb-4">
+    <div class="message-header">
+        📧 البريد الإلكتروني للمرسل إليه:
+    </div>
+    <div class="message-section">
+        {{ verification_rating.verification_email }}
+    </div>
+</div>
+
+<!-- 🔵 قسم الرسالة -->
+<div class="info-card mb-5">
+    <div class="message-header">
+        📝 الرسالة المرسلة:
+    </div>
+    <div class="message-section">
+        {{ verification_rating.email_message|safe }}
+    </div>
+</div>
+
+<!-- ✨ الآن يبدأ التقييم في كرت منفصل -->
+<div class="rating-section">
+    <div class="rating-header mb-4 text-center">
+        📝 <span style="font-size: 22px; font-weight: bold; color: #5a1ebf;">استبيان تقييم البيانات</span>
+    </div>
+
+
+
+    <div class="rating-question">
+        <label>1. هل البيانات منظمة بشكل يسهل قراءتها؟</label>
+        <div class="rating-data">
+            <span>
+                {{ verification_rating.is_data_organized }}
+            </span>
+        </div>
+    </div>
+
+    <div class="rating-question">
+        <label>2. هل المحتوى المقدم في الجدول واضح وسهل الفهم؟</label>
+        <div class="rating-data">
+            <span>
+                {{ verification_rating.is_content_clear_easy }}
+            </span>
+        </div>
+    </div>
+
+    <div class="rating-question">
+        <label>3. كيف تقيم تنسيق الجدول وعرض الأعمدة؟</label>
+        <div class="rating-data">
+            <span>
+                {{ verification_rating.evaluate_column_formatting }}
+            </span>
+        </div>
+    </div>
+
+    <div class="rating-question">
+        <label>4. هل تعتقد أن كمية البيانات كافية لتحقيق نتائج دقيقة؟</label>
+        <div class="rating-data">
+            <span>
+                {{ verification_rating.is_data_amount_sufficient_accurate_results }}
+            </span>
+        </div>
+    </div>
+
+    <div class="rating-question">
+        <label>5. ما أكثر شيء أعجبك في البيانات؟</label>
+        <div class="rating-data">
+            <span>
+                {{ verification_rating.most_liked_about_data }}
+            </span>
+        </div>
+    </div>
+
+    <div class="rating-question">
+        <label>6. هل لديك أي ملاحظات أو اقتراحات؟</label>
+       <div class="rating-data">
+            <span>
+                {{ verification_rating.comments_or_suggestions }}
+            </span>
+        </div>
+    </div>
+
+    <div class="rating-question">
+        <label>7. ما رأيك العام في مجموعة البيانات؟</label>
+       <div class="rating-data">
+            <span>
+                {{ verification_rating.overall_dataset_opinion }}
+            </span>
+        </div>
+    </div>
+  </div>
+{% endif %}
+
+
+ <!-- Footer -->
+  <footer>
+    <div class="footer-content" style=" font-family: 'Poppins', sans-serif;">
+        <div>
+            <h3>من نحن</h3>
+            <p>منصة متطورة تعتمد على الذكاء الاصطناعي لتسهيل تنظيم وتحليل النصوص العربية.
+                مما يساعد المستخدمين على الوصول إلى رؤى دقيقة بسرعة وبكفاءة عالية.</p>
+        </div>
+        <div>
+            <h3><a href="{{ url_for('terms') }}">الشروط والأحكام</a></h3>
+            <a href="mailto:bayyinhelp@gmail.com?subject=الدعم%20والمساعدة">الدعم والمساعدة</a> <br>
+            <a href="{{ url_for('faq') }}">الأسئلة الشائعة</a>
+        </div>
+        <div>
+            <h3>تواصل معنا</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+    <p>جميع الحقوق محفوظة لموقع بيِّن © 2024</p>
+</footer>
+  </div>
+</body>
+</html>

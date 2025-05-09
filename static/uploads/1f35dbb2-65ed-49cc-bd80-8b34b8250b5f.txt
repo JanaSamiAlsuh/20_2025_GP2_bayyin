@@ -1,0 +1,197 @@
+sprint 4 ID 14 add goal of creating the dataset
+ID 15 The labels are basically selecting the number of rows and columns
+As a user, I want to automatically generate datasets from all of Chatgpt, Gemini, and Claude using zero-shot techniques, without the need to provide raw data, so that I can create structured datasets tailored to my project’s needs.
+
+dublicates
+missing values
+detect_outliers
+check_column_data_types
+detect_category_imbalance
+
+
+
+
+Competitive NLP Feature Comparison Review (2024–2025)
+Below we review each listed feature across six NLP platforms – AWS Comprehend, Google Cloud Natural Language, IBM Watson NLU, Microsoft Azure Text Analytics, MeaningCloud, and Utopia AI – and verify whether each provides the feature. We note any inaccuracies in the current comparison table and provide corrected entries with supporting comments. (The “Bayyin” column is omitted per instructions.)
+Language Detection
+All these NLP services support language identification in text. The table indicated “Yes” for most, which is accurate. In particular:
+AWS Comprehend: Yes – It can detect the dominant language of a text snippet​
+aws.amazon.com
+​
+aws.amazon.com
+.
+Google Cloud NL: Yes – If no language is specified in a request, it auto-detects the language before analysis​
+cloud.google.com
+.
+IBM Watson NLU: Yes – It will detect language if none is specified (though IBM may require a minimum text length for reliable detection).
+Microsoft Azure TA: Yes – It provides a language detection API endpoint​
+github.com
+.
+MeaningCloud: Yes – It offers a dedicated Language Identification API (supporting languages like Arabic, Chinese, English, etc.​
+sourceforge.net
+).
+Utopia AI: Yes – It includes language detection (assumed, given this is a basic feature of NLP platforms).
+Table Correction: Ensure Microsoft Azure is marked “Yes” for Language Detection (it appears to have been blank or omitted in the table). All listed competitors do have this feature, so the table should reflect “Yes” for each. This row was otherwise correctly represented.
+Sentiment Analysis
+All the platforms offer sentiment analysis of text (typically detecting positive/negative/neutral sentiment). The table’s “Yes” for all is correct:
+AWS Comprehend: Yes – It provides sentiment analysis for documents (and supports multiple languages, including English and Arabic)​
+aws.amazon.com
+​
+aws.amazon.com
+.
+Google Cloud NL: Yes – It performs sentiment analysis at both document and sentence level (with a magnitude and score).
+IBM Watson NLU: Yes – It offers sentiment analysis for whole documents or targeted phrases, in supported languages (English, Spanish, etc., and possibly others)​
+ibm.com
+.
+Microsoft Azure TA: Yes – It includes a sentiment analysis feature, with support for many languages (including Arabic)​
+github.com
+.
+MeaningCloud: Yes – It provides sentiment analysis API, including the ability to detect global sentiment and aspects (supports many languages like English, Spanish, Arabic, etc.).
+Utopia AI: Yes – It offers sentiment analysis (presumably as part of its text analytics capabilities).
+Table Assessment: The table’s “Yes” entries for Sentiment Analysis across all tools are accurate. No changes needed.
+Entity Recognition
+All platforms support Named Entity Recognition (NER), i.e. extracting entities like people, organizations, locations, etc., from text:
+AWS Comprehend: Yes – It has pre-trained entity recognition (Person, Org, Date, etc.)​
+aws.amazon.com
+ and even a PII entity detector.
+Google Cloud NL: Yes – It provides entity extraction with types (Person, Location, Organization, “OTHER”, etc.) and salience scores​
+medium.com
+.
+IBM Watson NLU: Yes – It extracts entities (people, companies, etc.) as part of its metadata output​
+ibm.com
+.
+Microsoft Azure TA: Yes – It offers named entity recognition, including labeled categories and subtypes (and separate PII entity recognition)​
+github.com
+.
+MeaningCloud: Yes – It can identify entities and concepts through its Topic Extraction API (covering names, concepts, etc., in multiple languages).
+Utopia AI: Yes – It supports entity extraction (assumed, as a standard NLP feature in competitive products).
+Table Assessment: The comparison table listing “Yes” for all providers under Entity Recognition is correct. No corrections needed.
+Key Phrase Extraction
+This feature (also known as keyword extraction or key terms extraction) is where we see some differences among providers. The current table had mixed entries (Yes/No/Limited), which we will clarify:
+AWS Comprehend: Yes – It has a dedicated Keyphrase Extraction API to pull out significant phrases from text​
+aws.amazon.com
+. It returns key phrases (generally noun phrases) with confidence scores.
+Google Cloud NL: No (Dedicated) – Google’s API does not have a standalone key-phrase extraction endpoint. It does extract entities with salience, which covers important keywords (mostly single words or names). However, it tends to return individual keywords rather than broader noun phrases​
+medium.com
+. In practice, Google NL “aims to provide keywords only, with very few or no key phrases”​
+medium.com
+. (Users often use entity extraction as a proxy for keyword extraction on Google.)
+IBM Watson NLU: Yes – Watson NLU offers a Keywords feature that extracts important key words or multi-word phrases from text, with relevance scores​
+ibm.com
+. The table’s “Limited” for IBM here is somewhat misleading – the capability exists fully. It may be that IBM’s keyword extraction is limited in language support. (Watson NLU supports a subset of languages for certain features, so if the context is Arabic: Watson’s key phrase extraction might not support Arabic, which would justify calling it limited. But in general, for supported languages like English, it’s a standard feature.) We suggest marking this as “Yes” and perhaps noting any language restriction separately.
+Microsoft Azure TA: Yes – It provides a Key Phrase Extraction feature out-of-the-box​
+github.com
+. Azure’s service returns key phrases (in many languages including Arabic) from input text. This was correctly “Yes” in the table.
+MeaningCloud: Yes – MeaningCloud can extract key terms. While it doesn’t label it “key phrases” explicitly, its Topics Extraction can return significant concepts and entities from text, effectively serving a similar purpose. It’s reasonable to keep “Yes” for MeaningCloud.
+Utopia AI: Yes – Utopia is reported to support key phrase or keyword extraction. (We assume this based on the table and the fact that it offers comprehensive NLP features.)
+Table Corrections: Change IBM Watson NLU from “Limited” to “Yes” under Key Phrase Extraction (since it does have a keyword extraction feature​
+ibm.com
+). Google Cloud NL remains “No” in the sense of no dedicated key-phrase feature (the original “No” was essentially correct). All others should be “Yes.” If “Limited” for IBM was intended to denote lack of Arabic support, that can be clarified in a footnote instead of the main table, because the feature itself exists.
+Content Classification
+“Content Classification” refers to categorizing a document’s topic or domain (e.g. news category, industry sector, etc.). The table had varied entries (some “Yes”, some “Limited”, some blanks). Here are the actual offerings:
+AWS Comprehend: Limited (Custom/Topics) – Amazon Comprehend does not provide a broad pre-trained taxonomy classification like news categories out-of-the-box. It offers Topic Modeling (unsupervised clustering of documents by topics)​
+aws.amazon.com
+ and Custom Classification (where you train your own classifier with labeled data)​
+aws.amazon.com
+. In other words, you can achieve content classification with Comprehend, but only via custom models or by using the unsupervised topic discovery (which yields groups of keywords, not predefined category labels). The table’s “Limited” for AWS here is appropriate.
+Google Cloud NL: Yes – Google provides a pre-trained content classification feature (classifyText) that assigns documents to a hierarchy of 700+ categories (like Arts, Sports, Technology, etc.)​
+github.com
+. This is a built-in capability of the API. The table correctly marked Google as “Yes.”
+IBM Watson NLU: Yes – IBM NLU offers two forms of classification: Categories, which assigns a document to an existing five-level taxonomy of categories (Beta)​
+ibm.com
+, and Classifications, which allows custom label-based classification (trainable via Watson Knowledge Studio or Watson Studio)​
+ibm.com
+. IBM’s pre-trained category classifier covers broad domains, so it should be “Yes” for content classification. (The table had “Yes” for IBM, which is accurate.)
+Microsoft Azure TA: Limited (Custom only) – Azure’s Text Analytics service does not include a pre-trained general topic classification for documents. However, Azure’s Cognitive Service for Language provides Custom Text Classification as a feature (you can train a model on your own labeled data via Azure’s Language Studio)​
+github.com
+. Essentially, classification is available only as a custom model. The table labeled this “Limited,” which is correct (meaning no out-of-box categories, only custom).
+MeaningCloud: Yes – MeaningCloud has robust classification capabilities. It provides pre-built classification models (for example, for news, sentiment, intent, etc.) and also allows custom classification models that users can define (using their Deep Categorization engine or by manually defining categories and rules). Because it has built-in models and highly customizable classifiers, it should be “Yes” for content classification (the original table shows “Yes” for MeaningCloud).
+Utopia AI: Yes – Utopia AI reportedly supports document classification. Given the table’s “Yes” and the positioning of Utopia as a highly customizable solution, it likely offers classification either through built-in categories or by enabling custom category models. We will keep this as “Yes.”
+Table Assessment: Most entries were correct. AWS Comprehend remains “Limited” (with a note that it requires custom training or yields unlabeled topics). Azure remains “Limited” (custom only). Others (Google, IBM, MeaningCloud, Utopia) are “Yes.” No additional corrections needed beyond possibly clarifying in a footnote why AWS/Azure are limited.
+Syntax Analysis
+This feature refers to grammatical parsing of text – typically identifying tokens (words), parts of speech, and maybe dependency structure. The table had several “No” entries, but one notable inaccuracy was for AWS. Let’s verify each:
+AWS Comprehend: Yes – Amazon Comprehend can perform syntax analysis. It has an API to return tokens with part-of-speech tags (noun, verb, adjective, etc.) and other syntax info​
+docs.aws.amazon.com
+​
+aws.amazon.com
+. For example, Comprehend can identify the nouns and verbs in a sentence and their POS tags. The table’s “No” for AWS was incorrect – it should be “Yes” for Syntax Analysis.
+Google Cloud NL: Yes – Google’s API provides a full syntax analysis (the analyzeSyntax endpoint). It returns tokenization, part-of-speech tagging, lemmas, and dependency parse tree information for sentences. The table correctly showed “Yes” for Google here.
+IBM Watson NLU: Mostly No (Limited) – Historically, IBM’s cloud NLU service did not output raw syntax parsing (no direct POS tag list or parse tree in the JSON). It focused on higher-level features (entities, keywords, etc.). The table marked IBM as “No” for Syntax, which was true for the publicly available NLU API. Update (2024): IBM’s documentation now mentions syntax as a capability​
+ibm.com
+, and their newer Watson NLP libraries include lemmatization and POS tagging. It appears IBM is introducing syntax features (possibly via their enhanced offering or for on-premise use). But if we consider the standard Watson NLU service as of early 2024, syntax output isn’t something you directly get without a custom model. Thus, the table’s “No” for IBM was essentially correct at the time. We recommend keeping IBM as “No” in the table, but noting that IBM has announced syntax capabilities in recent releases​
+ibm.com
+.
+Microsoft Azure TA: No – Azure’s text analytics service does not provide general syntax parsing (no POS tagging or parse tree output). It focuses on higher-level tasks (entities, sentiment, etc.). So “No” is correct.
+MeaningCloud: No – MeaningCloud does not expose a general syntax analysis feature. Its APIs are geared toward semantic tasks (topics, sentiment, etc.), not low-level parsing. So “No” is appropriate.
+Utopia AI: No – Utopia’s offering, as far as known, does not list syntax parsing as a feature. It likely relies on underlying NLP but doesn’t provide syntax results to users. Thus “No” is correct.
+Table Correction: The key correction is for AWS Comprehend – change from “No” to “Yes” under Syntax Analysis​
+aws.amazon.com
+. AWS indeed supports part-of-speech tagging (which qualifies as syntax analysis). All other entries can remain the same (Google “Yes”; IBM “No”; Azure, MeaningCloud, Utopia “No”).
+Specific Focus on Arabic
+This row in the table is a bit unusual – it’s not a standard “feature” of NLP services, but rather highlights whether the product is specially designed or optimized for Arabic language processing. Here’s the situation:
+AWS, Google, IBM, Microsoft, MeaningCloud, Utopia: No – None of these platforms is specifically focused on Arabic. They are all general-purpose multilingual NLP services. They do support Arabic to varying degrees (for example, AWS and Azure include Arabic in their supported languages​
+aws.amazon.com
+, and MeaningCloud lists Arabic among supported languages​
+sourceforge.net
+). However, they are not uniquely tailored or optimized for Arabic beyond that support. So it’s correct that all of them would be “No” in a column for a special Arabic focus.
+(By contrast, Bayyin – which we aren’t analyzing in depth – presumably is an Arabic-focused NLP solution, hence “Yes (Optimized for Arabic)” in the table for Bayyin. It’s the unique selling point of that product, not applicable to the others.)
+Table Assessment: The table was correct to mark “No” for all competitors on “Specific Focus on Arabic.” This is not a standard comparison feature for general NLP APIs (since most aim to support many languages). We might keep this row only to emphasize Bayyin’s specialization; otherwise, it’s not a capability that the general platforms claim at all. (If the table is meant to highlight Bayyin vs others, you can keep it, but it’s not a feature difference so much as a strategy difference.)
+Exploratory Data Analysis (EDA)
+“Exploratory Data Analysis” is not a typical built-in feature of NLP APIs; rather, it describes a user-driven process of analyzing data (often using visualization or interactive tools). The inclusion of this in the table is a bit unconventional, and most of these services do not offer EDA tooling as part of their product. Let’s interpret what the table might have meant:
+AWS, Google, Microsoft: No – These cloud services provide APIs/SDKs, but they don’t come with an interactive data exploration interface out-of-the-box for text analytics results. For instance, AWS Comprehend and Azure have consoles where you can input text and see results, but not much in terms of exploring large datasets or visualizing patterns without building your own solution. The table correctly marked AWS and Azure as “No” for EDA. Google was marked “Limited,” likely because Google offers some allied tools (you could use BigQuery, Data Studio, or AutoML insights for limited exploration, but there’s no dedicated EDA feature in the NL API itself).
+IBM Watson NLU: Limited – IBM’s NLU service by itself doesn’t have a full EDA platform, but IBM did offer tools like Watson Studio and Discovery which allow some data exploration. Possibly the table put “Limited” because you can use Watson Discovery to interactively explore a collection of documents (which uses NLU under the hood), or because the Watson NLU demo UI lets you analyze sample text. In any case, there is no explicit “exploratory analysis” feature in Watson NLU; any such capability comes from separate IBM products.
+MeaningCloud: Yes – This likely refers to MeaningCloud providing some tools or interfaces for analysis. MeaningCloud has plugins (for example, an Excel add-in, and dashboards for analyzing sentiment results, etc.) that can help an analyst explore text data without coding. They also have pre-built visualizations for certain solutions (like Voice of the Customer). Thus, the table’s “Yes” for MeaningCloud implies it offers more support for exploratory analysis than the big cloud APIs – which is plausible, since MeaningCloud markets user-friendly tools for non-developers.
+Utopia AI: Yes – Utopia AI appears to be a solution-oriented provider, possibly offering a platform where users can upload data and interactively explore results (cluster topics, filter by sentiment, etc.). “Yes” in the table suggests Utopia provides an interface or service for data exploration. Without official docs, we assume Utopia has some analytic dashboard or consulting service that aids in EDA for text.
+Table Assessment: From a pure feature comparison standpoint, “Exploratory Data Analysis” is not a standard feature of NLP APIs. The entries mainly reflect whether the vendor provides any analytic UI on top of the API. The table’s information (No for most, Yes for MeaningCloud/Utopia) might be true, but it introduces a somewhat subjective criterion. If this table is meant for technical feature comparison, consider removing “Exploratory Data Analysis” as a row – it’s not a clearly defined capability, and not something the big providers advertise. However, if kept, then the current entries are basically right: the large cloud services should be “No” (or “Limited” for Google/IBM with external tools), and MeaningCloud/Utopia “Yes” (since they emphasize ease of analysis). Do note this distinction in a footnote if needed.
+Custom AI Models
+This feature indicates the ability to build custom NLP models (e.g., custom text classifiers or custom entity extractors) on the platform – an important capability for specialized use cases. The table mostly put “Limited” for the big four and “High customization” for MeaningCloud and Utopia, which aligns with reality:
+AWS Comprehend: Limited – AWS allows some customization: you can train Custom Classification models and Custom Entity Recognition models with your data​
+aws.amazon.com
+. This is done through Amazon Comprehend’s AutoML capabilities. However, you cannot retrain or deeply customize the core sentiment or syntax models, for example. It’s limited to those two areas (and the process is managed by AWS). So “Limited” is fair.
+Google Cloud NL: Limited – Google’s pre-trained models aren’t user-customizable, but Google offers AutoML Natural Language (a separate service) for custom text classification and custom entity extraction. Through AutoML, you can train your own model for your domain. Again, this is limited to classification and entity tasks. So the ability exists but within a narrow scope, hence “Limited.”
+IBM Watson NLU: Limited – IBM allows customization via Watson Knowledge Studio, where you can train a custom entity extraction model (for example, teach it new entity types or relations) and then deploy that model to Watson NLU. You can also create a custom classification model (Watson had a service called Watson Natural Language Classifier, or one can use Watson Studio AutoAI to train classifiers). These require additional work outside the base API. IBM’s product page explicitly notes you can “train Watson to understand the language of your business” with custom models​
+ibm.com
+. Still, this is not unlimited open customization of everything – it’s specific and requires expertise. “Limited” is appropriate.
+Microsoft Azure TA: Limited – Azure’s Language service includes Custom Named Entity Recognition and Custom Text Classification features​
+github.com
+. Using Azure’s portal, you can train these models with your data and then use them via the API. There’s a defined workflow and it’s restricted to those tasks. Other aspects (like sentiment) cannot be custom-trained by users. So Azure is also “Limited” for custom models.
+MeaningCloud: High customization – MeaningCloud is known for its flexibility. It allows users to define custom dictionaries, sentiment models, and classification schemes. For example, you can create a custom classification model with your own categories, or add custom entities and polarity to sentiment via its configuration tools. This means a user can significantly tailor the NLP output to their domain without building a model from scratch – a high degree of customization relative to the big cloud APIs. The table’s “High customization” for MeaningCloud is accurate, since the platform was built with configurability in mind.
+Utopia AI: High customization – As a competitor likely focusing on tailored solutions, Utopia AI presumably offers to build or tweak models to fit the client’s needs (maybe through an interface or via their team’s services). “High customization” suggests Utopia allows fully customizable NLP models, possibly even training models specifically for a certain language or domain. We don’t have documentation, but given the positioning, this entry makes sense.
+Table Assessment: The entries here are largely correct. All major cloud providers should be “Limited” (they permit custom models but only in certain areas and with moderate effort). Both MeaningCloud and Utopia remain “High customization” (indicating they stand out by allowing more extensive model customization or even building models from scratch for users). No changes needed, aside from maybe clarifying in footnotes what “Limited” entails for each (as done above).
+Data Curation
+“Data Curation” generally refers to preparing and organizing data – e.g. cleaning text, labeling datasets, maintaining knowledge bases – which is not typically a feature of NLP services themselves. It’s usually a manual or separate process. In the table, this row seems intended to highlight whether the provider offers support in curating and managing data for NLP. Here’s the breakdown:
+AWS, Google, IBM, Microsoft: No – None of these offer a built-in data curation feature as part of their NLP API. They provide the analysis tools, but tasks like data cleaning, annotation, and curation are left to the user or third-party tools. For instance, AWS has SageMaker Ground Truth for data labeling, and Google/Azure have their labeling services, but those are separate from the NLP APIs and not specific to these products. The table likely had these as blank or “No,” which is correct.
+MeaningCloud: No (not as a distinct feature) – MeaningCloud provides some help with custom dictionaries and taxonomy definition, but it doesn’t explicitly do “data curation” for you. Users still need to prepare their text data for analysis. There isn’t an automated data-cleaning or labeling module in MeaningCloud’s offerings. So this should be “No” as well (unless we count their consulting or support services, which the table probably did not). It’s possible the table left this blank for MeaningCloud, but if it said something, it might be overreaching.
+Utopia AI: No (likely) – Utopia, being a smaller vendor, might assist clients in curating training data as part of onboarding (particularly if building custom models for them). However, as a product feature, it’s not standard. Unless Utopia has a specific data management tool, we would say it doesn’t have an out-of-the-box data curation pipeline for users. (The table might have left it blank or “No” for Utopia; we didn’t see the entry.)
+(Bayyin: Possibly “Yes” – as an Arabic-focused solution, Bayyin might offer data curation assistance for Arabic text, which would be a differentiator. That could be why this row exists – to show Bayyin provides help with curating Arabic data, whereas others don’t.)
+Table Assessment: This feature is not standard across NLP platforms and is mostly “No” for all. If the current table has any entries claiming otherwise for the competitors, those are likely inaccurate. We recommend removing “Data Curation” from the comparison table since it’s not a well-defined or commonly offered feature by these services. If kept (perhaps to highlight Bayyin’s offering), then mark all the evaluated competitors as “No” (or “N/A”). Including such a row only makes sense if you want to emphasize that your solution (Bayyin) uniquely provides data curation support; otherwise, it’s not a meaningful comparative feature.
+Conclusion and Recommendations
+In summary, the core NLP features (Language Detection, Sentiment Analysis, Entity Recognition) are provided by all compared services – the table correctly marked those as available (Yes for all). Key Phrase Extraction is offered by all except Google (which uses entity extraction instead), so IBM Watson NLU should be marked Yes rather than “Limited” (noting any language caveats)​
+ibm.com
+. Content Classification is available in all; however, AWS and Azure require custom models (hence “Limited” is fine for them, while Google/IBM/MeaningCloud/Utopia are Yes). Syntax Analysis support is rarer – only AWS and Google truly have it; the table needs to be corrected to Yes for AWS Comprehend​
+aws.amazon.com
+. The last three rows – Specific Focus on Arabic, Exploratory Data Analysis, and Data Curation – are non-standard in industry feature lists. They highlight strategic or auxiliary aspects rather than core NLP capabilities. The comparisons for Arabic-focus (all No except the Arabic-centric tool) are accurate, but this is more of a niche differentiation than a feature. EDA and Data Curation are not provided by the major platforms (with MeaningCloud/Utopia only marginally covering EDA via user tools). These two rows introduce some ambiguity and could be removed to tighten the comparison. If you retain them (perhaps to underscore value-add services), clarify that mainstream APIs don’t include these as features. By implementing the above corrections and possibly pruning the non-standard rows, the feature comparison table will more accurately reflect the state of competitive NLP offerings in 2024–2025. Each tool’s capabilities should be double-checked against official documentation to ensure the table remains up-to-date. The suggested adjustments will ensure no feature is misrepresented and that the comparison focuses on meaningful differences. Sources:
+Amazon Comprehend documentation and features​
+aws.amazon.com
+​
+aws.amazon.com
+Google Cloud Natural Language API documentation​
+cloud.google.com
+​
+github.com
+ and analysis of its keyword vs phrase output​
+medium.com
+IBM Watson NLU product page and docs​
+ibm.com
+​
+ibm.com
+Microsoft Azure Cognitive Service for Language (Text Analytics) documentation​
+github.com
+​
+github.com
+MeaningCloud support and reviews​
+sourceforge.net
+ (language support)
+Third-party comparison and analysis for keyword extraction​
+medium.com
+.

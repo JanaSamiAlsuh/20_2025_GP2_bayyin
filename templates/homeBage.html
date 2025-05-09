@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bayyin - تحليل النصوص العربية</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body, html {
+      direction: rtl;
+      scroll-behavior: smooth;
+    }
+
+    /* ====== Navbar ====== */
+    .header {
+      background: white;
+      padding: 20px 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+    }
+
+    .logo img {
+      width: 120px;
+      height: auto;
+    }
+
+     .nav-links a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    position: relative;
+    padding-bottom: 5px;
+  }
+
+  .nav-links a:hover {
+    color: #007bff;
+  }
+
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    background: #007bff;
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover::after {
+    width: 100%;
+  }
+
+    .profile-icon img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 1px;
+    }
+
+    /* ====== Hero Area ====== */
+      .hero-area {
+      position: relative;
+      background: linear-gradient(135deg, #6D5DFB 0%, #A59EFF 50%, #F5F6FF 100%);
+      padding: 50px 0 90px;
+      color: #4f3bc0;
+      overflow: hidden;
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    }
+
+    .hero-area .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .contents {
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    .contents h2 {
+      font-size: 38px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .contents p {
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .header-button {
+      margin-top: 30px;
+    }
+
+    .header-button .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      margin-left: 15px;
+      border-radius: 30px;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    .btn-border-filled {
+      background-color: white;
+      color: #4f3bc0;
+    }
+
+    .btn-border-filled:hover {
+      background-color: #eee;
+    }
+
+    .btn-border {
+      border: 2px solid white;
+      color: white;
+    }
+
+    .btn-border:hover {
+      background-color: white;
+      color: #4f3bc0;
+    }
+
+    .intro-img img {
+      max-width: 500px;
+      width: 100%;
+    }
+
+    /* ====== Footer ====== */
+    footer {
+      background: radial-gradient(circle, #281F54, #7d2ae8);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    footer .footer-content {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    footer .footer-content div {
+      max-width: 300px;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .social-icons a {
+      font-size: 24px;
+      margin: 0 10px;
+    }
+
+    footer p {
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+
+
+    /* ====== start of about us Section: Styled & Soft ====== */
+
+
+.about-section {
+  padding: 80px 10%;
+  background-color: #ffffff;
+}
+
+.about-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.about-image img {
+  max-width: 500px;
+  width: 100%;
+  height: auto;
+}
+
+.about-text {
+  max-width: 600px;
+  text-align: right;
+}
+
+.about-text h2 {
+  font-size: 32px;
+  color: #6A0DAD;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.about-text p {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.about-button {
+  display: inline-block;
+  padding: 14px 35px;
+  background-color: #6A0DAD;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.about-button:hover {
+  background-color: #5a04bd;
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .about-text {
+    text-align: center;
+  }
+}
+/* ====== end of about us Section: Styled & Soft ====== */
+
+
+/* ====== Features Section: Styled & Soft ====== */
+.features {
+  padding: 80px 20px;
+  text-align: center;
+  background: #ffffff;
+}
+
+.features h2 {
+  font-size: 30px;
+  color: #6A0DAD;
+  margin-bottom: 50px;
+  font-weight: bold;
+}
+
+.features-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.feature-card {
+  background-color: #fff;
+  width: 320px;
+  height: 360px; /* أطول من قبل */
+  padding: 40px 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(106, 13, 173, 0.15);
+  border: 1px solid #d6c6ff;
+}
+
+.feature-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #f3e9ff;
+  color: #6A0DAD;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  margin-bottom: 20px;
+}
+
+.feature-card h3 {
+  font-size: 20px;
+  color: #222;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.feature-card p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.9;
+  text-align: center;
+  max-width: 270px;
+}
+
+
+/* ====== End Features Section ====== */
+
+
+            /* Services Section */
+        .services {
+            padding: 80px 20px;
+            text-align: center;
+            background: rgba(248, 248, 248,0.90);
+        }
+
+        .services h2 {
+            font-size: 30px;
+            color: #6A0DAD;
+            margin-bottom: 35px;
+            font-weight: bold;
+        }
+
+        .service-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .service-box {
+            width: 320px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .service-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 25px rgba(106, 13, 173, 0.3);
+        }
+
+        .service-box i {
+            font-size: 50px;
+            color: #6A0DAD;
+            margin-bottom: 15px;
+        }
+
+        .service-box h3 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .service-box p {
+            font-size: 16px;
+            color: #555;
+        }
+
+ /* end */
+
+        /* Vision & Mission Section */
+        .vision-section {
+            background: #f8f9fa;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .vision-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .vision-section h2 {
+            color: #6A0DAD;
+            margin-bottom: 12px;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .vision-section p {
+            font-size: 18px;
+            color: #666;
+        }
+
+
+
+
+    /* ====== start of recent work   Section ====== */
+/* قسم أعمالك الأخيرة */
+.recent-works {
+  padding: 80px 20px;
+  text-align: center;
+ /* background: linear-gradient(to right, #6A0DAD, #00CFFF); */
+    background: white;
+  color: white;
+}
+
+.recent-works h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #6A0DAD;
+}
+
+/* رسالة في حال عدم وجود أعمال */
+.works-message {
+  font-size: 18px;
+  color: #6A0DAD;
+  margin-top: 20px;
+}
+
+/* الحاوية العامة للكروت */
+.works-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap; /* مهم جداً عشان يصير Responsive */
+  margin-top: 30px;
+}
+
+/* تصميم البطاقة */
+.work-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  width: 300px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  color: #333;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.work-card:hover {
+  transform: translateY(-5px);
+}
+
+/* أيقونة دائرية في أعلى البطاقة */
+.circle-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #e1c6f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.circle-icon img {
+  max-width: 40px;
+  max-height: 40px;
+}
+
+/* النص داخل البطاقة */
+.work-card h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.work-card p {
+  font-size: 15px;
+  margin: 4px 0;
+}
+
+/* زر العرض */
+.work-card a {
+  margin-top: 15px;
+  display: inline-block;
+  padding: 8px 16px;
+  color: #6A0DAD;
+  border: 1px solid #6A0DAD;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.work-card a:hover {
+  background-color: #6A0DAD;
+  color: #fff;
+}
+
+    /* ====== end of recent work   Section ====== */
+
+  </style>
+</head>
+<body>
+ <!-- Header/Navbar -->
+<div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+  <div class="logo">
+    <a href="{{ url_for('home') }}">
+      <img src="{{ url_for('static', filename='images/logo.jpeg') }}" alt="Bayyin logo">
+    </a>
+  </div>
+  <div class="nav-links" style="display: flex; align-items: center; gap: 30px;">
+    <a href="{{ url_for('home') }}"> الصفحة الرئيسية </a>
+    <a href="#features">حول المنصة</a>
+    <a href="#services">الخدمات</a>
+    <a href="#recent-works">أعمالك</a>
+    <a href="#footer-content">تواصل معنا</a>
+    {% if session.get('loggedin') %}
+      <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">تسجيل خروج</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">تسجيل دخول</a>
+    {% endif %}
+    <form id="logout-form" action="{{ url_for('logout') }}" method="post" style="display: none;"></form>
+  </div>
+  <div class="profile-icon" style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+    <a href="{% if session.get('loggedin') %}{{ url_for('profile') }}{% else %}{{ url_for('login') }}{% endif %}">
+      <img src="{{ url_for('static', filename='images/account.png') }}" alt="الحساب" style="width: 100%; height: 100%; object-fit: cover;">
+    </a>
+  </div>
+</div>
+
+
+  <section class="hero-area">
+    <div class="container">
+      <div class="contents">
+        <h2>تحليل النصوص العربية بذكاء</h2>
+        <p>منصتنا تتيح لك تنقيح النصوص، واستخراج الكيانات، وتحليل البيانات النصية بدقة باستخدام الذكاء الاصطناعي.</p>
+        <div class="header-button">
+          <a href="#services" class="btn btn-border-filled">اكتشف الخدمات </a>
+          <a href="#features" class="btn btn-border">اعرف المزيد</a>
+        </div>
+      </div>
+      <div class="intro-img">
+        <img src="{{ url_for('static', filename='images/Visual data-amico.png') }}" alt="تحليل النصوص">
+      </div>
+    </div>
+  </section>
+
+<section class="features" id="features">
+  <h2>مميزات المنصة</h2>
+  <div class="features-container">
+
+    <!-- Feature 1 -->
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-bolt"></i>
+      </div>
+      <h3>نتائج فورية</h3>
+      <p>احصل على تحليلك فورًا بدون أي تأخير من خلال نظام متطور يعالج النصوص العربية لحظيًا. لا حاجة للانتظار، فقط أدخل نصك واستلم النتائج مباشرة بدقة وكفاءة عالية.</p>
+    </div>
+
+    <!-- Feature 2 -->
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-laptop-code"></i>
+      </div>
+      <h3>واجهة سهلة</h3>
+      <p>واجهة استخدام واضحة وبسيطة تدعم اللغة العربية بشكل كامل، تم تصميمها لتناسب المبتدئين والمحترفين، وتوفّر تجربة سلسة وسريعة في التفاعل مع أدوات التحليل.</p>
+    </div>
+
+    <!-- Feature 3 -->
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3>تحليل دقيق</h3>
+      <p>نستخدم أحدث نماذج الذكاء الاصطناعي لتحليل النصوص العربية بعمق، واستخراج الكيانات، الأنماط، والمشاعر بدقة فائقة تساعدك على اتخاذ قرارات مبنية على بيانات واضحة.</p>
+    </div>
+
+    <!-- Feature 4 -->
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-language"></i>
+      </div>
+      <h3>دعم اللغة العربية</h3>
+      <p>تم تطوير المنصة خصيصًا للتعامل مع تحديات اللغة العربية مثل التشكيل، التصريف، واللهجات المختلفة، مما يضمن نتائج تحليل أكثر واقعية وتعبيرًا عن المعنى الحقيقي للنص.</p>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+  <section class="about-section" id="about">
+  <div class="about-container">
+    <div class="about-image">
+      <img src="static/images/Visual data-rafiki.png" alt="من نحن">
+    </div>
+    <div class="about-text">
+      <h2>منصة ذكية لتحليل النصوص العربية</h2>
+      <p>
+        بيِّن هي منصة تعتمد على الذكاء الاصطناعي لمساعدتك على فهم النصوص العربية بطريقة ذكية ودقيقة.
+        نقدم أدوات متقدمة لاستخراج المعلومات، تحليل المشاعر، والتعرف على الكيانات بطريقة مبسطة وسريعة.
+      </p>
+      <a href="#services" class="about-button">ابدأ تجربتك</a>
+    </div>
+  </div>
+</section>
+
+
+
+    <!-- Services Section -->
+<section id="services" class="services">
+    <h2>خدماتنا</h2>
+<form id="processingForm" method="post" action="{{ url_for('choose_processing') }}">
+        <div class="service-container">
+            <label class="service-box" onclick="selectOption('processing_options')">
+                <i class="fas fa-align-left icon-blue"></i>
+                <input type="radio" name="process_type" value="processing_options" hidden>
+                <h3>معالجة النص</h3>
+                <p>تنظيف النصوص من الأخطاء والتكرارات وتحليلها لاستخراج بيانات دقيقة.</p>
+            </label>
+
+            <label class="service-box" onclick="selectOption('api_analysis')">
+                <i class="fas fa-brain icon-green"></i>
+                <input type="radio" name="process_type" value="api_analysis" hidden>
+                <h3>تحليل متقدم (API)</h3>
+                <p>استخدام الذكاء الاصطناعي لاستخراج الكلمات المفتاحية وتصنيف النصوص وتحليل المشاعر.</p>
+            </label>
+
+            <label class="service-box" onclick="selectOption('zero_shot')">
+                <i class="fas fa-magic icon-purple"></i>
+                <input type="radio" name="process_type" value="zero_shot" hidden>
+                <h3>تعلم بدون أمثلة</h3>
+                <p>إنشاء مجموعات بيانات جديدة وتصنيف النصوص دون تدريب مسبق.</p>
+            </label>
+
+            <label class="service-box" onclick="selectOption('ai_verification')">
+                <i class="fas fa-robot icon-green"></i>
+                <input type="radio" name="process_type" value="ai_verification" hidden>
+                <h3>التحقق عبر الذكاء الاصطناعي</h3>
+                <p>استخدام مودل الذكاء الاصطناعي لفحص جودة مجموعة البيانات والتحقق من دقتها.</p>
+            </label>
+
+            <label class="service-box" onclick="selectOption('human_verification')">
+                <i class="fas fa-user-check icon-blue"></i>
+                <input type="radio" name="process_type" value="human_verification" hidden>
+                <h3>التحقق البشري</h3>
+                <p>مراجعة مجموعة البيانات يدويًا من قبل مختصين لضمان الجودة.</p>
+            </label>
+        </div>
+    </form>
+</section>
+
+
+<section class="recent-works" id="recent-works">
+  <h2>أعمالك الأخيرة</h2>
+
+  <div class="works-container">
+    {% for work in recent_works %}
+      <div class="work-card">
+        <div class="circle-icon">
+          {% if work.processing_type == 'text_analysis' %}
+            <i class="fas fa-file-alt fa-2x" style="color: #6A0DAD;"></i> <!-- أيقونة تحليل نصي -->
+          {% elif work.processing_type == 'ai_verifications' %}
+              <i class="fas fa-robot fa-2x" style="color: #6A0DAD;"></i> <!-- أيقونة تحقق عبر الذكاء الاصطناعي -->
+          {% elif work.processing_type == 'zero_shot' %}
+              <i class="fas fa-magic fa-2x" style="color: #6A0DAD;"></i> <!-- أيقونة تحقق عبر الذكاء الاصطناعي -->
+          {% else %}
+            <i class="fas fa-chart-bar fa-2x" style="color: #6A0DAD;"></i> <!-- أيقونة تحليل إحصائي -->
+          {% endif %}
+        </div>
+        <h3>{{ work.display_filename or 'بدون اسم' }}</h3>
+        <p>📅 {{ work.created_at.strftime('%Y-%m-%d') }}</p>
+        {% if work.processing_type == 'text_analysis' %}
+            <p>📁 نوع التحليل: تحليل نصي</p>
+            <a href="{{ url_for('view_result', result_id=work.id) }}">عرض</a>
+        {% elif work.processing_type == 'ai_verifications' %}
+            <p>📁 نوع التحليل: تحقق عبر الذكاء الاصطناعي</p>
+            <a href="{{ url_for('view_ai_verification', dataset_id=work.id) }}">عرض</a>
+        {% elif work.processing_type == 'zero_shot' %}
+            <p>📁 نوع التحليل: تعلم بدون أمثلة</p>
+            <a href="{{ url_for('show_dataset_results', gpt4o_id=work.gpt4_datasets_id, claude_id=work.claude_datasets_id, gemini_id=work.gemini_datasets_id) }}">عرض</a>
+        {% else %}
+            <p>📁 نوع التحليل: تحليل إحصائي</p>
+            <a href="{{ url_for('view_dataset', dataset_id=work.id) }}">عرض</a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+
+  <footer>
+    <div class="footer-content" id="footer-content">
+        <div>
+            <h3>من نحن</h3>
+            <p>منصة متطورة تعتمد على الذكاء الاصطناعي لتسهيل تنظيم وتحليل النصوص العربية.
+                مما يساعد المستخدمين على الوصول إلى رؤى دقيقة بسرعة وبكفاءة عالية.</p>
+        </div>
+        <div>
+            <h3><a href="{{ url_for('terms') }}">الشروط والأحكام</a></h3>
+            <a href="mailto:bayyinhelp@gmail.com?subject=الدعم%20والمساعدة">الدعم والمساعدة</a> <br>
+            <a href="{{ url_for('faq') }}">الأسئلة الشائعة</a>
+        </div>
+        <div>
+            <h3>تواصل معنا</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+    <p>جميع الحقوق محفوظة لموقع بيِّن © 2024</p>
+</footer>
+
+
+<script>
+    function selectOption(value) {
+        // Select the corresponding radio button
+        document.querySelector(`input[value="${value}"]`).checked = true;
+
+        // Delay form submission to ensure the value is set
+        setTimeout(() => {
+            document.getElementById("processingForm").submit();
+        }, 100); // Delay by 100ms to ensure the selection is registered
+    }
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتائج التحقق من جودة البيانات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <style>
+       /* General Page Styling */
+/* General Page Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    direction: rtl;
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+            .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 20px 50px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo img {
+            width: 120px;
+            height: auto;
+            margin-right: 16px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            background: #007bff;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 50px;
+        }
+
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+
+/* Main Container */
+.container {
+    width: 74%;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        overflow: visible !important;
+
+}
+
+/* Page Title */
+h2 {
+    color: #281F54;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Status Box */
+.status-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(to right, #7d2ae8, #281F54);
+    margin-bottom: 20px;
+}
+
+/* Collapsible Sections */
+.section {
+    background: #f9f9f9;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    overflow: visible !important;
+}
+
+/* Section Header */
+.section-header {
+    font-size: 22px;
+    font-weight: bold;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    cursor: pointer;
+    border-bottom: 2px solid #ddd;
+    transition: background 0.3s ease-in-out;
+overflow: visible !important;
+    position: relative; /* Ensures tooltip positioning works */
+    z-index: 5; /* Keeps section header below the tooltip */
+}
+
+.section-header:hover {
+    background-color: #e6e6e6;
+}
+
+/* Section Title (Centered & Bold) */
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #281F54;
+    flex-grow: 1;
+    text-align: center;
+}
+
+/* Small Arrow on the Right (like Google Colab) */
+.arrow-icon {
+    font-size: 22px;
+    color: #281F54;
+    margin-right: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.section-header.active .arrow-icon {
+    transform: rotate(180deg);
+}
+
+/* Section Content (Initially Hidden) */
+.section-content {
+    display: none;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 15px;
+    background: white;
+    text-align: right;
+    border-top: 1px solid #ddd;
+}
+
+/* Bigger Font for Values */
+.section-content p,
+.section-content span,
+.section-content td {
+    font-size: 20px; /* Increased font size */
+    font-weight: normal;
+}
+
+/* Scrollbar Styling */
+.section-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.section-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.section-content::-webkit-scrollbar-thumb {
+    background: #7d2ae8;
+    border-radius: 5px;
+}
+
+/* Table Formatting */
+.section-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.section-table th {
+    font-size: 20px; /* Bigger Column Names */
+    font-weight: bold;
+    padding: 12px;
+    text-align: right;
+    background-color: #f1f1f1;
+}
+
+.section-table td {
+    font-size: 18px; /* Bigger Values */
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+/* Tooltip Styling */
+.info-icon {
+    color: gray;
+    font-size: 18px;
+    margin-right: 5px;
+    cursor: pointer;
+    position: relative;
+    z-index: 10; /* Ensure it's above other elements */
+}
+
+/* Tooltip Text */
+.info-icon::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 50%;
+    top: -45px; /* Moves tooltip above */
+    transform: translateX(50%);
+    background-color: #444;
+    color: white;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-align: center;
+    max-width: 220px; /* ✅ Wider width to avoid word breaks */
+    min-width: 180px;
+    line-height: 1.6; /* ✅ Better spacing for readability */
+    display: none;
+    overflow: hidden;
+    white-space: normal; /* ✅ Allows wrapping */
+    word-wrap: break-word; /* ✅ Wraps words correctly */
+    word-break: keep-all; /* ✅ Prevents single-word lines */
+    direction: rtl; /* ✅ Ensures Arabic text alignment */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Show Tooltip on Hover */
+.info-icon:hover::after {
+    display: block;
+}
+
+
+
+
+
+
+
+
+
+/* Expandable Sections */
+.content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    padding: 0 20px;
+    background: #fafafa;
+    text-align: right;
+    border-top: 1px solid #ddd;
+}
+
+.content.active {
+    max-height: 500px;
+    padding: 15px 20px;
+}
+
+/* Colorful Icons */
+.blue-icon { color: #3498db; }
+.orange-icon { color: #f39c12; }
+.purple-icon { color: #9b59b6; }
+.red-icon { color: #e74c3c; }
+.brown-icon { color: #d35400; }
+.green-icon { color: #2ecc71; }
+
+/* Footer */
+.footer {
+    background: radial-gradient(circle, #281F54, #7d2ae8);
+    color: white;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+/* Success and Warning Messages */
+.success {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.warning {
+    color: #e67e22;
+    font-weight: bold;
+}
+
+.recommendation-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #281F54;
+  margin-bottom: 10px;
+}
+
+.clean-recommendation-list {
+  list-style: none;
+  padding: 0;
+  direction: rtl;
+  text-align: right;
+}
+
+.clean-recommendation-list li {
+  background-color: #f9f9fc;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  font-size: 17px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.04);
+  line-height: 1.7;
+}
+
+
+      footer {
+    background: radial-gradient(circle, #281F54, #7d2ae8);
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+footer .footer-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+footer .footer-content div {
+    margin-bottom: 10px;
+}
+
+footer h3 {
+    margin-bottom: 10px;
+    font-size: 18px; /* Adjust heading font size */
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px; /* Adjust link font size */
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer .social-icons a {
+    font-size: 24px; /* Adjust social icon size */
+    margin-right: 10px;
+    color: #fff;
+}
+
+footer .social-icons a:hover {
+    color: #ccc;
+}
+
+footer .footer-content div p {
+    max-width: 300px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-size: 14px; /* Match paragraph font size */
+}
+
+footer p {
+    font-size: 14px; /* Match copyright text size */
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+   </style>
+</head>
+<div class="header">
+    <div class="logo">
+      <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo.jpeg') }}" alt="Bayyin logo"></a>
+    </div>
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">الصفحة الرئيسية</a>
+        {% if session.get('loggedin') %}
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">تسجيل خروج</a>
+            <form id="logout-form" action="{{ url_for('logout') }}" method="post" style="display: none;"></form>
+        {% else %}
+            <a href="{{ url_for('login') }}">تسجيل الدخول</a>
+        {% endif %}
+    </div>
+    <div class="profile-icon">
+        <a href="{% if session.get('loggedin') %}{{ url_for('profile') }}{% else %}{{ url_for('login') }}{% endif %}">
+            <img src="{{ url_for('static', filename='images/account.png') }}" alt="Profile Icon">
+        </a>
+    </div>
+</div>
+
+<body>
+ <div class="container">
+    <h2>نتائج التحقق من جودة البيانات</h2>
+
+    <!-- ✅ Dataset Status -->
+    <div class="status-box">
+        <i class="fas fa-check-circle"></i> حالة البيانات:
+        <span class="success">تم تحميل البيانات بنجاح!</span>
+    </div>
+
+   <!-- 🔢 Unique Values Per Column -->
+<div class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span><i class="fas fa-table blue-icon"></i> عدد القيم الفريدة لكل عمود</span>
+        <div>
+            <i class="fas fa-info-circle info-icon" data-tooltip="تحليل القيم الفريدة في كل عمود للكشف عن التكرارات."></i>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </div>
+    <div class="section-content">
+        <table class="section-table">
+            {% if results.get("Unique Values Count per Column") and results["Unique Values Count per Column"] is mapping %}
+                {% for column, value in results["Unique Values Count per Column"].items() %}
+                    <tr>
+                        <td class="bold-text">{{ column }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="2" class="success">✅ Unique values counted successfully.</td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+</div>
+
+<!-- 🔴 Outliers -->
+<div class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span><i class="fas fa-chart-line red-icon"></i> القيم الشاذة</span>
+        <div>
+            <i class="fas fa-info-circle info-icon" data-tooltip="الكشف عن القيم الشاذة التي قد تؤثر على النتائج."></i>
+            <i class="fas fa-chevron-down arrow-icon"></i>
+        </div>
+    </div>
+    <div class="section-content">
+        {% if results["Outliers Detected"] is mapping and results["Outliers Detected"]|length > 0 %}
+            <table class="section-table">
+                {% for column, values in results["Outliers Detected"].items() %}
+                <tr>
+                    <td class="bold-text">{{ column }}</td>
+                    <td>{{ values }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% elif results["Outliers Detected"] is string %}
+            <p class="success">{{ results["Outliers Detected"] }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- 🟠 Duplicate Rows -->
+<div class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span><i class="fas fa-copy purple-icon"></i> القيم المكررة</span>
+        <div>
+            <i class="fas fa-info-circle info-icon" data-tooltip="الكشف عن الصفوف المكررة والتي قد تؤثر على التحليل."></i>
+            <i class="fas fa-chevron-down arrow-icon"></i>
+        </div>
+    </div>
+    <div class="section-content">
+        {% if missing_vals is mapping and missing_vals|length > 0 %}
+    <table class="section-table">
+        {% for column, value in missing_vals.items() %}
+        <tr>
+            <td class="bold-text">{{ column }}</td>
+            <td>{{ value }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p class="success">{{ missing_vals if missing_vals else "✅ لا توجد قيم مفقودة." }}</p>
+{% endif %}
+    </div>
+</div>
+
+<!-- ✅ Missing Values -->
+<!-- ✅ Missing Values -->
+<div class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span><i class="fas fa-exclamation-circle orange-icon"></i> القيم المفقودة</span>
+        <div>
+            <i class="fas fa-info-circle info-icon" data-tooltip="الكشف عن القيم غير المتوفرة داخل البيانات."></i>
+            <i class="fas fa-chevron-down arrow-icon"></i>
+        </div>
+    </div>
+
+
+
+ <div class="section-content">
+    {% set missing_vals = results.get("Missing Values") %}
+
+    {% if missing_vals is mapping and missing_vals|length > 0 %}
+        <table class="section-table">
+            {% for column, value in missing_vals.items() %}
+            <tr>
+                <td class="bold-text">{{ column }}</td>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% elif missing_vals is string %}
+        <p class="success">{{ missing_vals }}</p>
+    {% else %}
+        <p class="success">✅ لا توجد قيم مفقودة.</p>
+    {% endif %}
+</div>
+
+</div>
+
+
+
+<!-- ✅ Data Type Issues -->
+<div class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span><i class="fas fa-database brown-icon"></i> مشاكل في أنواع البيانات</span>
+        <div>
+            <i class="fas fa-info-circle info-icon" data-tooltip="التأكد من أن البيانات تتوافق مع الأنواع المتوقعة."></i>
+            <i class="fas fa-chevron-down arrow-icon"></i>
+        </div>
+    </div>
+    <div class="section-content">
+        {% if results["Data Type Issues"] is mapping and results["Data Type Issues"]|length > 0 %}
+            <table class="section-table">
+                {% for column, issue in results["Data Type Issues"].items() %}
+                <tr>
+                    <td class="bold-text">{{ column }}</td>
+                    <td>{{ issue }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% elif results["Data Type Issues"] is string %}
+            <p class="success">{{ results["Data Type Issues"] }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- ⚖ Category Imbalance -->
+<div class="section">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span><i class="fas fa-balance-scale blue-icon"></i> اختلال التوازن في الفئات</span>
+        <div>
+            <i class="fas fa-info-circle info-icon" data-tooltip="الكشف عن الفئات غير المتوازنة والتي قد تؤثر على النموذج."></i>
+            <i class="fas fa-chevron-down arrow-icon"></i>
+        </div>
+    </div>
+    <div class="section-content">
+        {% if results["Category Imbalance"] is mapping and results["Category Imbalance"]|length > 0 %}
+            <table class="section-table">
+                {% for column, imbalance in results["Category Imbalance"].items() %}
+                <tr>
+                    <td class="bold-text">{{ column }}</td>
+                    <td>{{ imbalance }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% elif results["Category Imbalance"] is string %}
+            <p class="success">{{ results["Category Imbalance"] }}</p>
+        {% endif %}
+    </div>
+</div>
+
+
+ </div>
+<!-- 💡 GPT-4o Recommendations -->
+<!-- 💡 توصيات GPT لتحسين جودة البيانات -->
+<div class="section">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span><i class="fas fa-lightbulb yellow-icon"></i> توصيات لتحسين جودة البيانات</span>
+    <div>
+      <i class="fas fa-info-circle info-icon" data-tooltip="اقتراحات مبنية على تحليل البيانات المرفوعة."></i>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </div>
+  <div class="section-content">
+    {% if recommendations %}
+      <h3 class="recommendation-title">أهم التوصيات</h3>
+      <ul class="clean-recommendation-list">
+        {% for rec in recommendations.split("\n") %}
+          {% if rec.strip() %}
+            <li>{{ rec.strip() | replace("*", "") | replace(":", "") | replace("-", "") }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="success">✅ لا توجد مشكلات تتطلب توصيات!</p>
+    {% endif %}
+  </div>
+</div>
+
+
+
+
+  <footer>
+    <div class="footer-content" id="footer-content">
+        <div>
+            <h3>من نحن</h3>
+            <p>منصة متطورة تعتمد على الذكاء الاصطناعي لتسهيل تنظيم وتحليل النصوص العربية.
+                مما يساعد المستخدمين على الوصول إلى رؤى دقيقة بسرعة وبكفاءة عالية.</p>
+        </div>
+        <div>
+            <h3><a href="{{ url_for('terms') }}">الشروط والأحكام</a></h3>
+            <a href="mailto:bayyinhelp@gmail.com?subject=الدعم%20والمساعدة">الدعم والمساعدة</a> <br>
+            <a href="{{ url_for('faq') }}">الأسئلة الشائعة</a>
+        </div>
+        <div>
+            <h3>تواصل معنا</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+    <p>جميع الحقوق محفوظة لموقع بيِّن © 2024</p>
+</footer>
+
+<!-- JavaScript for Collapsible Sections -->
+<script>
+
+
+
+
+
+     function toggleSection(header) {
+            let content = header.nextElementSibling;
+            let icon = header.querySelector(".arrow-icon");
+
+            if (content.style.display === "none" || content.style.display === "") {
+                content.style.display = "block";
+                icon.classList.add("fa-chevron-up");
+                icon.classList.remove("fa-chevron-down");
+            } else {
+                content.style.display = "none";
+                icon.classList.add("fa-chevron-down");
+                icon.classList.remove("fa-chevron-up");
+            }
+        }
+
+        // Initialize sections as collapsed
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".section-content").forEach(content => {
+                content.style.display = "none";
+            });
+        });
+
+</script>
+</body>
+</html>

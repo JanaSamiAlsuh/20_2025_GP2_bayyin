@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رفع الملفات</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        #emailModal-footer {
+    margin-top: 25px;
+}
+/* Align labels to the right */
+#emailModal label {
+    display: block; /* Ensures it takes full width */
+    text-align: right; /* Align text to the right */
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+#emailModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* ✅ زيدنا الحجم من 45% إلى 60% */
+    max-width: 800px; /* ✅ زودنا الحد الأعلى */
+    background-color: white;
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+     height: 85vh;              /* 🔹 يزيد الطول كنسبة من ارتفاع الشاشة */
+    max-height: 95vh;          /* 🔹 حد أقصى للطول */
+    overflow-y: auto;
+}
+
+
+/* Email Modal Header */
+#emailModal h2 {
+    font-size: 24px;
+    color: #7d2ae8;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Email Modal Close Button */
+#emailModal .close {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+#emailModal .close:hover {
+    color: #9B7EBD;
+}
+
+/* Input Fields */
+#emailModal input,
+#emailModal textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+#emailModal input:focus,
+#emailModal textarea:focus {
+    border-color: #7d2ae8;
+    outline: none;
+}
+
+/* Textarea Improvements */
+#emailModal textarea {
+    height: 320px; /* كان 200px */
+    resize: none;
+    font-family: "Tajawal", sans-serif;
+    line-height: 1.9;
+    background-color: #f9f9f9;
+    padding: 18px;
+    color: #333;
+    font-size: 16px;
+
+}
+
+/* Highlighted File Display */
+#selected-file-message {
+    font-size: 14px;
+    color: #198754;
+    background: #eefbf3;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    border: 1px solid #198754;
+}
+
+#selected-file-message i {
+    margin-left: 5px;
+    color: #198754;
+}
+
+/* Submit Button */
+#emailModal .submit-button {
+    background-color: #7d2ae8;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 12px;
+    width: 100%;
+    padding: 14px;
+    font-size: 19px;
+}
+
+#emailModal .submit-button:hover {
+    background-color: #9B7EBD;
+    transform: scale(1.02);
+}
+
+#emailModal .submit-button:active {
+    transform: scale(0.98);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #emailModal {
+        width: 90%;
+    }
+
+    #emailModal textarea {
+        height: 180px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+
+.modal-content p {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    direction: rtl; /* Ensure Arabic text is properly aligned */
+}
+
+
+textarea, input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.input-group {
+    width: 48%;
+}
+
+.submit-ai-btn {
+    background-color: #7d2ae8;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.submit-ai-btn:hover {
+    background-color: #9B7EBD;
+    transform: scale(1.05);
+}
+
+.submit-ai-btn:active {
+    transform: scale(0.95);
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #666;
+}
+
+.close:hover {
+    color: #444;
+}
+
+        #ai-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+        .open-ai-modal {
+    background-color: #7d2ae8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.open-ai-modal:hover {
+    background-color: #9B7EBD;
+    transform: scale(1.05);
+}
+
+.open-ai-modal:active {
+    transform: scale(0.95);
+}
+
+        html, body {
+            height: 100%; /* Full height of the viewport */
+            margin: 0; /* Remove default margins */
+            display: flex;
+            flex-direction: column;
+        }
+        .yellow-button {
+    background-color: #007bff; /* Default blue color */
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease; /* Smooth transition */
+    margin-top: 20px;
+}
+
+.yellow-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.yellow-button:active {
+    transform: scale(0.98); /* Slightly smaller when clicked */
+}
+
+
+        input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #7d2ae8;
+    cursor: pointer;
+}
+
+label:hover {
+    text-decoration: underline;
+    color: #7d2ae8;
+}
+
+
+        ::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #7d2ae8;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+
+        #previous-files {
+    margin-top: 20px;
+    display: none; /* Initially hidden */
+    border: 2px solid #7d2ae8; /* Purple border */
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f9f7fc; /* Light purple background */
+    color: #333; /* Text color */
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for better visibility */
+    text-align: right;
+
+}
+
+
+
+
+#previous-files.show {
+    display: block;
+    opacity: 1; /* Fully visible */
+    transform: translateY(0);
+}
+
+        #file-options div {
+    display: flex;
+    align-items: center;
+    padding: 10px 0; /* Add spacing between options */
+    border-bottom: 1px solid #eaeaea; /* Light gray separator */
+}
+
+#file-options div:last-child {
+    border-bottom: none; /* Remove the separator for the last item */
+}
+
+input[type="radio"] {
+    margin-left: 10px; /* Space between the radio button and label */
+    accent-color: #7d2ae8; /* Purple color for the radio button */
+    cursor: pointer; /* Indicate that the radio button is clickable */
+}
+
+label {
+    font-size: 14px;
+    color: #333;
+    cursor: pointer; /* Indicate that the label is clickable */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; /* Truncate long file names */
+    width: 100%; /* Ensure label text does not overflow */
+}
+
+#file-options {
+    max-height: 200px; /* Limit height for better usability */
+    overflow-y: auto; /* Scrollable for long lists */
+    padding-right: 10px; /* Space for scrollbar */
+    scrollbar-width: thin; /* For Firefox */
+}
+
+#file-options::-webkit-scrollbar {
+    width: 8px;
+}
+
+#file-options::-webkit-scrollbar-thumb {
+    background: #7d2ae8;
+    border-radius: 5px;
+}
+
+#file-options::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+hr {
+    border: none;
+    border-top: 2px solid #7d2ae8; /* Blue separator */
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+textarea {
+    width: 100%;
+    height: 150px;
+    resize: none;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+textarea::-webkit-scrollbar {
+    width: 8px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background: #7d2ae8;
+    border-radius: 5px;
+}
+
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+@media (max-width: 768px) {
+    .modal {
+        width: 90%;  /* Adjusts to smaller screens */
+        max-width: 90%;
+    }
+}
+
+
+        .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    max-width: 1000px;  /* Ensures modal doesn't stretch too wide */
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow-y: auto; /* Allow scrolling for long content */
+    max-height: 80vh;  /* Prevent modal from getting too large */
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+/* Ensure background overlay covers full screen */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Dark overlay for better visibility */
+    z-index: 999;
+    display: none;
+}
+
+
+
+
+.modal-content textarea {
+    width: 100%;
+    height: 300px;
+    resize: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    background: #f9f9f9;
+}
+
+.modal-content .continue-btn {
+    background-color: #7d2ae8;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.modal-content .continue-btn:hover {
+    background-color: #9B7EBD;
+}
+.file-container {
+    margin-bottom: 20px; /* Space between file content */
+    position: relative; /* Ensure each container has its own scroll context */
+}
+
+
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 20px 30px; /* Reduce padding if necessary */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed; /* Ensures the header stays at the top */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000; /* Ensures the header is above other content */
+        }
+
+        .logo img {
+            width: 120px;
+            height: auto;
+            margin-right: 94px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            background: #007bff;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-left: 20px;
+        }
+
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        /* General Styling */body {
+    font-family: 'Tajawal', sans-serif;
+    background: linear-gradient(135deg, #e9efff, #f9fcff);
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* Ensure body takes full height of the viewport */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+
+
+        .container {
+    background-color: white;
+    padding: 30px; /* Add padding inside the container to make the content feel more spacious */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 410px; /* Adjust the maximum width to make the container wider */
+    width: 70%; /* Allow the container to adjust responsively to smaller screens */
+    margin-left: 100px;
+            margin-bottom: 150px;
+            margin-top: 130px;
+            margin-right: 100px;
+    text-align: center;
+}
+
+
+
+
+        h1 {
+            color: #7d2ae8;
+        }
+
+        /* File Upload Styling */
+        .file-upload {
+            position: relative;
+            border: 2px dashed #7d2ae8;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: #9B7EBD;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .upload-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            color: #7d2ae8;
+            font-size: 24px;
+        }
+
+        .submit-button {
+            background-color: #7d2ae8;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-button:hover {
+    background-color: #9B7EBD;
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+        .submit-button:active {
+    transform: scale(0.98);
+}
+
+
+        .file-name {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #333;
+            text-align: center;
+        }
+
+        footer {
+            background: radial-gradient(circle, #281F54, #7d2ae8);
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            width: 100%;
+            margin-top: auto; /* Ensure footer is always at the bottom */
+        }
+
+        footer .footer-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer .footer-content div {
+            margin-bottom: 10px;
+        }
+
+        footer h3 {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer .social-icons a {
+            font-size: 24px;
+            margin-right: 10px;
+            color: #fff;
+        }
+
+        footer .social-icons a:hover {
+            color: #ccc;
+        }
+
+        footer .footer-content div p {
+            max-width: 300px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        footer p {
+            font-size: 14px;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+}
+
+
+        .popup-menu {
+    position: absolute;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 200px;
+    top: 200px; /* Adjust position if needed */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    display: none;
+    text-align: right;
+}
+
+.popup-menu button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: none;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+}
+
+.popup-menu button:hover {
+    background-color: #f0f0f0;
+}
+
+#loading-container {
+    display: none;  /* Initially hidden */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 400px;  /* Bigger box */
+}
+
+#loading-message {
+    font-size: 20px;
+    color: #7d2ae8;
+    margin-bottom: 10px;
+}
+
+#progress-container {
+    width: 100%;
+    height: 25px;
+    background: #ddd;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+#progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #7d2ae8;
+    transition: width 0.3s ease-in-out;
+}
+
+#progress-percentage {
+    display: block;
+    margin-top: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #7d2ae8;
+}
+
+
+/* Dark overlay background */
+#overlay {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 999; /* Below the progress bar */
+}
+
+/* Progress Bar Container */
+#loading-container {
+    display: none;  /* Initially hidden */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 400px;  /* Bigger box */
+    z-index: 1000; /* Above the overlay */
+}
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo.jpeg') }}" alt="Bayyin logo"></a>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">الصفحة الرئيسية</a>
+            {% if session.get('loggedin') %}
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">تسجيل خروج</a>
+                <form id="logout-form" action="{{ url_for('logout') }}" method="post" style="display: none;"></form>
+            {% else %}
+                <a href="{{ url_for('login') }}">تسجيل الدخول</a>
+            {% endif %}
+        </div>
+        <div class="profile-icon">
+            <a href="{% if session.get('loggedin') %}{{ url_for('profile') }}{% else %}{{ url_for('login') }}{% endif %}">
+                <img src="{{ url_for('static', filename='images/account.png') }}" alt="Profile Icon">
+            </a>
+        </div>
+    </div>
+
+
+
+
+<div class="container">
+    <h1>رفع الملفات</h1>
+    <p id="file-type-message" style="color: #7d2ae8; font-size: 14px;">...</p>
+    <form id="uploadForm" action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
+        <div class="file-upload" id="file-upload" onclick="document.getElementById('file').click()">
+            <div class="upload-button">
+                <span>اختر الملفات</span>
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+            </div>
+            <input type="file" name="files" id="file" multiple onchange="showFileNames()">
+            <div class="file-name" id="file-name" style="margin-top: 10px; font-size: 14px; color: #333;"></div>
+            <div id="success-message" style="color: green; font-size: 14px; margin-top: 10px;"></div>
+
+        </div>
+       <div id="optional-section" style="margin-top: 20px; text-align: center;">
+            <span id="or-text">أو</span>
+            <div id="previous-files-container">
+                <button type="button" onclick="showPreviousFiles()" class="yellow-button">
+                    عرض الملفات السابقة <i class="fas fa-folder-open"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="previous-files">
+            <p id="file-list-message" style="font-size: 14px; color: #333;">الرجاء اختيار ملف من القائمة:</p>
+            <div id="file-options"></div>
+        </div>
+        <button type="button" class="submit-button" onclick="submitForm()">رفع ومعالجة الملفات</button>
+    </form>
+</div>
+<!-- AI Dataset Modal -->
+
+
+
+    <div id="fileModal" class="modal">
+        <div class="modal-content">
+            <h2>محتوى الملفات</h2>
+            <div id="fileContents" style="max-height: 400px; overflow-y: auto;"></div>
+            <button class="continue-btn" onclick="closeModal()">متابعة</button>
+        </div>
+    </div>
+
+
+
+
+<!-- Email Modal for Writing Message -->
+<div id="emailModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeEmailModal()">&times;</span>
+        <h2>إرسال بريد إلكتروني</h2>
+
+        <label for="emailAddress">البريد الإلكتروني:</label>
+        <input type="email" id="emailAddress" placeholder="أدخل البريد الإلكتروني" required>
+
+        <label for="emailMessage">الرسالة:</label>
+        <textarea id="emailMessage" placeholder="أدخل رسالتك"></textarea>
+
+        <p style="color: green;" id="selected-file-message"></p>
+
+        <button onclick="sendEmailWithFile()" class="submit-button">إرسال</button>
+    </div>
+</div>
+
+          <div id="overlay"></div> <!-- This is the new dark background -->
+            <div id="loading-container">
+                <p id="loading-message">جاري إنشاء البيانات، يرجى الانتظار...</p>
+              <div id="progress-container">
+                 <div id="progress-bar"></div>
+              </div>
+              <span id="progress-percentage">0%</span>
+          </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const processType = "{{ session.get('process_type', '') }}".trim();
+    const optionalSection = document.getElementById("optional-section");
+    console.log();
+    if (processType === "human_verification" || processType === "ai_verification"|| processType ===  "processing_options") {
+    optionalSection.style.display = "none";
+} else {
+    document.getElementById("or-text").style.display = "block";
+}
+
+});
+
+let progressInterval = null;
+let isProcessing = false;
+
+function startProcessing() {
+    if (isProcessing) return;
+    isProcessing = true;
+
+    console.log("⏳ Processing started...");
+
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('loading-container').style.display = 'block';
+
+    let progressPercentage = document.getElementById('progress-percentage');
+    let progressBar = document.getElementById('progress-bar');
+
+    let progress = 0;
+    let maxProgress = 95; // Avoid reaching 100% before dataset is ready
+
+    if (progressInterval) clearInterval(progressInterval);
+
+    progressInterval = setInterval(() => {
+        if (progress < maxProgress) {
+            progress += Math.floor(Math.random() * 5) + 2;
+            progress = Math.min(progress, maxProgress);
+
+            progressPercentage.textContent = progress + "%";
+            progressBar.style.width = progress + '%';
+        }
+    }, 500);
+}
+
+function showFileNames() {
+    const fileInput = document.getElementById('file');
+    const fileNameDiv = document.getElementById('file-name');
+    const successMessageDiv = document.getElementById('success-message');
+    const fileContentsDiv = document.getElementById('fileContents');
+    const fileModal = document.getElementById('fileModal');
+    const files = fileInput.files;
+
+    if (!fileNameDiv || !successMessageDiv) {
+        console.error("File name or success message elements not found.");
+        return;
+    }
+
+    if (files.length > 4) {
+        alert("يمكنك رفع 4 ملفات فقط.");
+        fileInput.value = "";
+        fileNameDiv.textContent = "";
+        successMessageDiv.textContent = "";
+        fileContentsDiv.innerHTML = "";
+        fileModal.style.display = 'none';
+        return;
+    }
+
+    if (files.length > 0) {
+        let fileNames = Array.from(files).map(file => file.name).join(', ');
+        fileNameDiv.textContent = `الملفات المحددة: ${fileNames}`;
+        successMessageDiv.textContent = `✅ تم اختيار الملفات بنجاح!`;
+
+        // Reset previous contents before adding new ones
+        fileContentsDiv.innerHTML = '';
+
+        Array.from(files).forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const contentContainer = document.createElement('div');
+                const fileTitle = document.createElement('h3');
+                fileTitle.textContent = `محتوى الملف ${index + 1}: ${file.name}`;
+                fileTitle.style.color = '#7d2ae8';
+
+                const fileContent = document.createElement('textarea');
+                fileContent.value = e.target.result;
+                fileContent.readOnly = true;
+
+                contentContainer.appendChild(fileTitle);
+                contentContainer.appendChild(fileContent);
+                fileContentsDiv.appendChild(contentContainer);
+            };
+            reader.readAsText(file);
+        });
+
+        fileModal.style.display = 'block';
+    } else {
+        fileNameDiv.textContent = "";
+        successMessageDiv.textContent = "";
+    }
+}
+
+
+
+// Function to update allowed file types and display appropriate messages
+function updateFileType() {
+    const fileInput = document.getElementById('file');
+    const message = document.getElementById('file-type-message');
+
+    // Get process type from session
+    const processType = "{{ session.get('process_type', '') }}".trim();
+
+    // Define allowed file types based on process type
+    let allowedExtensions = [];
+    let allowedMessage = "";
+
+    if (processType === 'ai_verification' || processType === 'human_verification') {
+        allowedExtensions = ['.xls', '.xlsx', '.csv'];
+        allowedMessage = "📂 يمكن تحميل ملفات إكسل (.xlsx) أو CSV فقط لهذا النوع من المعالجة";
+    } else {
+        allowedExtensions = ['.txt', '.docx'];
+        allowedMessage = "📄 يمكن تحميل ملفات النصوص (.txt) أو مستندات الوورد (.docx) فقط";
+    }
+
+    // Set accepted file types in input
+    fileInput.setAttribute("accept", allowedExtensions.join(','));
+
+    // Show allowed file type message
+    message.innerText = allowedMessage;
+}
+
+// Ensure validation happens when a user selects a file
+document.getElementById('file').addEventListener('change', function () {
+    const fileInput = this;
+    const files = fileInput.files;
+    const message = document.getElementById('file-type-message');
+
+    if (!files.length) return;
+
+    // Get allowed file extensions
+    const processType = "{{ session.get('process_type', '') }}".trim();
+    const allowedExtensions = processType === 'ai_verification' || processType === 'human_verification'
+        ? ['.xls', '.xlsx', '.csv']
+        : ['.txt', '.docx'];
+
+    // Validate each file type
+    for (let file of files) {
+        const extension = file.name.split('.').pop().toLowerCase();
+        if (!allowedExtensions.includes('.' + extension)) {
+            message.innerHTML = "❌ <b>صيغة الملف غير مدعومة!</b> الرجاء اختيار ملف مناسب.";
+            message.style.color = "red";
+            fileInput.value = ""; // Reset input field
+            return;
+        }
+    }
+
+    // Show success message if the file is valid
+    message.innerHTML = "✅ <b>تم تحديد الملفات بنجاح!</b>";
+    message.style.color = "green";
+});
+
+// Run updateFileType when the page loads
+document.addEventListener('DOMContentLoaded', updateFileType);
+
+// Attach event listener to validate file type on file selection
+document.getElementById('file').addEventListener('change', function () {
+    const fileInput = this;
+    const files = fileInput.files;
+    const message = document.getElementById('file-type-message');
+
+    if (!files.length) return;
+
+    // Get allowed file extensions
+    const processType = "{{ session.get('process_type', '') }}".trim();
+    const allowedExtensions = processType === 'ai_verification' || processType === 'human_verification'
+        ? ['.xls', '.xlsx', '.csv']
+        : ['.txt', '.docx'];
+
+    // Validate each file type
+    for (let file of files) {
+        const extension = file.name.split('.').pop().toLowerCase();
+        if (!allowedExtensions.includes('.' + extension)) {
+            message.innerText = "❌ صيغة الملف غير مدعومة لهذا النوع من المعالجة!";
+            fileInput.value = ""; // Reset input field
+            return;
+        }
+    }
+
+    message.innerText = "✅ تم تحديد الملفات بنجاح!";
+});
+
+// Run the function when the page loads
+document.addEventListener('DOMContentLoaded', function () {
+    updateFileType(); // Ensure the file type updates when the page loads
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const aiButton = document.querySelector('.yellow-button');
+    const processType = "{{ session.get('process_type') }}";
+
+    if (processType === 'ai_verification' || processType === 'human_verification') {
+        aiButton.style.display = 'none';
+    }
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const aiButton = document.querySelector('.yellow-button');
+    const processType = "{{ session.get('process_type') }}";
+
+    if (processType === 'ai_verification' || processType === 'human_verification') {
+        aiButton.style.display = 'none';
+    }
+});
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+    const previousFilesContainer = document.getElementById('previous-files-container');
+    const processType = "{{ session.get('process_type', '') }}"; // Get the process type safely
+
+    // Check if the process type is "تحليل المتقدم"
+    if (processType.trim() === "api_analysis") {
+        previousFilesContainer.style.display = "block"; // Show the button
+    } else {
+        previousFilesContainer.style.display = "none"; // Hide the button
+    }
+});
+
+
+        async function generateDataset() {
+    const description = document.getElementById('dataset-description').value.trim();
+    const domain = document.getElementById('dataset-domain').value;
+    const columns = document.getElementById('columns-count').value || 5;
+    const rows = document.getElementById('rows-count').value || 10;
+    const goal = document.getElementById('dataset-goal').value.trim(); // ✅ New field
+
+    if (!description) {
+        alert("يرجى إدخال وصف للبيانات المطلوبة!");
+        return;
+    }
+
+    const requestData = {
+        description,
+        domain,
+        columns: parseInt(columns),
+        rows: parseInt(rows),
+        goal  // ✅ Send "goal" to the backend
+    };
+
+    try {
+        const response = await fetch('/generate_dataset', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestData)
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            alert("تم إنشاء مجموعة البيانات بنجاح!");
+            window.location.href = result.redirect_url;
+        } else {
+            alert("❌ حدث خطأ أثناء إنشاء مجموعة البيانات!");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("تعذر إرسال الطلب!");
+    }
+}
+
+
+
+
+
+
+        function openAIModal() {
+    document.getElementById("ai-modal").style.display = "block";
+    document.querySelector(".modal-overlay").style.display = "block"; // Show overlay
+}
+
+function closeAIModal() {
+    document.getElementById("ai-modal").style.display = "none";
+    document.querySelector(".modal-overlay").style.display = "none"; // Hide overlay
+}
+
+
+        function showFileNames() {
+    const fileInput = document.getElementById('file');
+    const fileNameDiv = document.getElementById('file-name');
+    const successMessageDiv = document.getElementById('success-message');
+    const fileContentsDiv = document.getElementById('fileContents');
+    const fileModal = document.getElementById('fileModal');
+    const files = fileInput.files;
+    const processType = "{{ session.get('process_type', '') }}".trim();
+
+    // التحقق من وجود العناصر
+    if (!fileNameDiv || !successMessageDiv) {
+        console.error("File name or success message elements not found.");
+        return;
+    }
+
+    // الحد الأقصى ٤ ملفات
+    if (files.length > 4) {
+        alert("يمكنك رفع 4 ملفات فقط.");
+        fileInput.value = "";
+        fileNameDiv.textContent = "";
+        successMessageDiv.textContent = "";
+        fileContentsDiv.innerHTML = "";
+        fileModal.style.display = 'none';
+        return;
+    }
+
+    if (files.length > 0) {
+        let fileNames = Array.from(files).map(file => file.name).join(', ');
+        fileNameDiv.textContent = `الملفات المحددة: ${fileNames}`;
+        successMessageDiv.textContent = `✅ تم اختيار الملفات بنجاح!`;
+
+        // إفراغ محتوى المعاينة السابق
+        fileContentsDiv.innerHTML = '';
+
+        Array.from(files).forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const contentContainer = document.createElement('div');
+                const fileTitle = document.createElement('h3');
+                fileTitle.textContent = `محتوى الملف ${index + 1}: ${file.name}`;
+                fileTitle.style.color = '#7d2ae8';
+
+                const fileContent = document.createElement('textarea');
+                fileContent.value = e.target.result;
+                fileContent.readOnly = true;
+
+                contentContainer.appendChild(fileTitle);
+                contentContainer.appendChild(fileContent);
+                fileContentsDiv.appendChild(contentContainer);
+            };
+            reader.readAsText(file); // لملفات النصوص فقط
+        });
+
+        if (processType !== "human_verification" && processType !== "ai_verification") {
+    fileModal.style.display = 'block';
+}
+
+
+    } else {
+        fileNameDiv.textContent = "";
+        successMessageDiv.textContent = "";
+    }
+}
+
+
+        function closeModal() {
+            const fileModal = document.getElementById('fileModal');
+            fileModal.style.display = 'none';
+        }
+
+
+
+
+  async function showPreviousFiles() {
+    const previousFilesContainer = document.getElementById('previous-files');
+    const fileOptions = document.getElementById('file-options');
+    fileOptions.innerHTML = ''; // Clear old content
+
+    try {
+        const response = await fetch('/get_previous_files');
+        const data = await response.json();
+
+        if (data.files && data.files.length > 0) {
+            data.files.forEach((file, index) => {
+                const option = document.createElement('div');
+                option.innerHTML = `
+                    <input type="radio" id="file-${index}" name="selected_previous_file" value="${file.filename}">
+                    <label for="file-${index}">${file.display_name}</label>
+                `;
+                fileOptions.appendChild(option);
+            });
+            previousFilesContainer.style.display = 'block';
+        } else {
+            fileOptions.innerHTML = '<p>لا توجد ملفات سابقة.</p>';
+            previousFilesContainer.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error fetching previous files:', error);
+        fileOptions.innerHTML = '<p>حدث خطأ أثناء تحميل الملفات السابقة.</p>';
+        previousFilesContainer.style.display = 'block';
+    }
+}
+
+async function submitForm()
+{
+    const uploadForm = document.getElementById('uploadForm');
+    const fileInput = document.getElementById('file');
+    const selectedFile = document.querySelector('input[name="selected_previous_file"]:checked');
+    const processType = "{{ session.get('process_type', '') }}".trim();
+
+    if (fileInput.files.length > 0 || selectedFile)
+    {
+        const formData = new FormData(uploadForm);
+        let size = 0.1*1024*1024;
+        let file_size = 0;
+
+        if(!selectedFile)
+        {
+            let file_size = fileInput.files[0].size;
+        }
+
+
+        if(file_size >= size)
+        {
+            Swal.fire("تنبيه❗", "اقصي حجم للملف المسموح به هو 100 كيلوبايت", "warning");
+            return false;
+        }
+
+        if (processType === "api_analysis" || processType === "ai_verification")
+        {
+            startProcessing(); // ✅ Start progress bar BEFORE sending request
+            uploadForm.submit();
+        }
+        else
+        {
+            if (processType === "human_verification")
+            {
+                openEmailModal(); // افتح المودال أولاً
+
+                // ✉️ ثم أرسل الإيميل مباشرة
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+
+                if (!email || !message || fileInput.files.length === 0)
+                {
+                    Swal.fire("❗تنبيه", "يرجى تعبئة البريد والرسالة وإرفاق ملف.", "warning");
+                    return;
+                }
+
+                const emailFormData = new FormData();
+                emailFormData.append("email", email);
+                emailFormData.append("message", message);
+                emailFormData.append("file", fileInput.files[0]);
+
+                try
+                {
+                    const emailResponse = await fetch("/send_email",
+                    {
+                        method: "POST",
+                        body: emailFormData
+                    });
+
+                    const emailResult = await emailResponse.json();
+
+                    if (emailResult.success) {
+                        Swal.fire("✅ تم", emailResult.message, "success");
+                    } else {
+                        Swal.fire("❌ خطأ", emailResult.error, "error");
+                    }
+                } catch (error) {
+                    console.error("❌ Failed to send email:", error);
+                    Swal.fire("❌ خطأ", "تعذر إرسال البريد الإلكتروني.", "error");
+                }
+
+                // بإمكانك بعد الإرسال وقف العملية لو تبي
+                return; // ❗ ما نكمل رفع الملف بعدها
+            }
+
+            try
+            {
+                const response = await fetch("{{ url_for('upload_file') }}", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (response.redirected)
+                {
+                    window.location.href = response.url;
+                    return;
+                }
+
+                const result = await response.json();
+
+                if (result.success === false || result.error)
+                {
+                    Swal.fire({
+                        title: "❌ خطأ",
+                        text: result.error || "حدث خطأ غير متوقع أثناء رفع الملف.",
+                        icon: "error"
+                    });
+                }
+
+            } catch (error) {
+                console.error("❌ Error uploading file:", error);
+                alert("❌ تعذر رفع الملف.");
+            }
+        }
+
+    }
+    else
+    {
+        alert("يرجى اختيار ملف جديد أو تحديد ملف من الملفات السابقة.");
+    }
+}
+
+
+
+        document.getElementById('file').addEventListener('change', function () {
+            const fileInput = this;
+            const files = fileInput.files;
+
+            if (files.length > 4)
+            {
+                alert("يمكنك رفع 4 ملفات فقط.");
+                fileInput.value = "";
+                return;
+            }
+        });
+
+    const processType = "{{ session.get('process_type', '') }}".trim();
+
+    document.addEventListener('DOMContentLoaded', function ()
+    {
+        // Show the email button only if processType is "human_validate"
+        if (processType === "human_verification") {
+            document.getElementById('send-email-container').style.display = "block";
+        }
+
+        // Show file upload error message correctly
+        updateFileType();
+    });
+
+// Function to open the email modal
+// Open the email modal with smooth transition
+// Open the email modal with smooth transition
+function openEmailModal() {
+    const modal = document.getElementById("emailModal");
+    modal.style.display = "block";
+    modal.style.opacity = "0";
+    setTimeout(() => {
+        modal.style.opacity = "1";
+        modal.style.transition = "opacity 0.3s ease";
+    }, 10);
+
+    // Display selected file name inside the modal
+    const fileInput = document.getElementById("file");
+    const selectedFileMessage = document.getElementById("selected-file-message");
+
+    if (fileInput.files.length > 0) {
+        selectedFileMessage.innerHTML = `📂 الملف المحدد: <span style="color: #198754;">${fileInput.files[0].name}</span>`;
+    } else {
+        selectedFileMessage.innerText = "لم يتم اختيار أي ملف.";
+    }
+
+    // ✅ Reset the message field to default every time the modal is opened
+    const emailMessageField = document.getElementById("emailMessage");
+    emailMessageField.value =
+        `السيد/ة [اسم المستلم] المحترم/ة،\n\n` +
+        `تحية طيبة وبعد،\n\n` +
+        `أرفق لكم ملفي لمراجعته والتحقق من دقة البيانات الواردة فيه.\n\n` +
+        ` **محتوى الملف:**\n` +
+        ` يحتوي الملف على بيانات تتعلق بـ **[وصف عام للبيانات]**.\n` +
+        `يشمل **[عدد السجلات]** سجلات و**[عدد الأعمدة]** متغيرات.\n` +
+        ` تم جمع البيانات من **[مصدر البيانات]** بغرض **[الهدف من التحليل]**.\n\n` +
+        ` **يرجى تقديم ملاحظاتكم حول:**\n` +
+        ` أي أخطاء محتملة في البيانات.\n` +
+        ` أي تحسينات لصياغة البيانات وتنظيمها.\n` +
+        ` أي إضافات قد تزيد من وضوح البيانات وجودتها.\n\n` +
+        ` **ملاحظة:** يمكنكم كتابة التحسينات او النصائح بخانة الملاحظات.\n\n` +
+        `شكراً لتعاونكم، وأتطلع إلى ملاحظاتكم.\n\n` +
+        `مع خالص التقدير،\n` +
+        `[اسمك]`;
+}
+
+
+
+// Close the email modal with smooth transition
+function closeEmailModal() {
+    const modal = document.getElementById("emailModal");
+    modal.style.opacity = "0";
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 200);
+}
+
+
+
+
+
+
+// Function to send email with file attachment
+async function sendEmailWithFile() {
+    const email = document.getElementById("emailAddress").value.trim();
+    const message = document.getElementById("emailMessage").value.trim();
+    const fileInput = document.getElementById("file");
+
+    if (!email || !message) {
+        Swal.fire({
+            title: "❌ خطأ!",
+            text: "يرجى إدخال البريد الإلكتروني والرسالة قبل الإرسال.",
+            icon: "error",
+            confirmButtonText: "موافق"
+        });
+        return;
+    }
+
+    // Convert user message to formatted HTML while preserving new lines
+    const formattedMessage = message
+        .replace(/\n/g, "<br>") // Preserve line breaks
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Convert **bold** text
+        .replace(/✔️/g, "✅") // Convert checkmarks for better visibility
+        .replace(/🔹/g, "<span style='color:#7d2ae8;'>🔹</span>") // Adjust color for bullet points
+        .replace(/📌/g, "<span style='color:#ff5733;'>📌</span>") // Highlight key sections
+        .replace(/💡/g, "<span style='color:#ffcc00;'>💡</span>"); // Make notes stand out
+
+    const htmlMessage = `
+        <div style="font-family: 'Arial', sans-serif; direction: rtl; text-align: right; color: #333; line-height: 1.8;">
+            ${formattedMessage}
+        </div>
+    `;
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("message", htmlMessage); // ✅ Send HTML-formatted user message
+    formData.append("isHtml", "true"); // ✅ Indicate HTML format
+
+    if (fileInput.files.length > 0) {
+        formData.append("file", fileInput.files[0]);
+    }
+
+    try {
+        const response = await fetch("/send_email", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            Swal.fire({
+                title: "📩 تم الإرسال!",
+                text: "✅ تم إرسال البريد الإلكتروني بنجاح!",
+                icon: "success",
+                confirmButtonText: "موافق"
+            });
+            closeEmailModal();
+        } else {
+            Swal.fire({
+                title: "❌ خطأ!",
+                text: "حدث خطأ أثناء إرسال البريد الإلكتروني. يرجى المحاولة مرة أخرى.",
+                icon: "error",
+                confirmButtonText: "موافق"
+            });
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        Swal.fire({
+            title: "❌ تعذر الإرسال!",
+            text: "حدث خطأ أثناء الاتصال بالخادم.",
+            icon: "error",
+            confirmButtonText: "موافق"
+        });
+    }
+}
+
+
+
+
+
+    </script>
+<footer>
+    <div class="footer-content">
+        <div>
+            <h3>من نحن</h3>
+            <p>منصة متطورة تعتمد على الذكاء الاصطناعي لتسهيل تنظيم وتحليل النصوص العربية.
+                مما يساعد المستخدمين على الوصول إلى رؤى دقيقة بسرعة وبكفاءة عالية.</p>
+        </div>
+        <div>
+            <h3><a href="{{ url_for('terms') }}">الشروط والأحكام</a></h3>
+            <a href="mailto:bayyinhelp@gmail.com?subject=الدعم%20والمساعدة">الدعم والمساعدة</a> <br>
+            <a href="{{ url_for('faq') }}">الأسئلة الشائعة</a>
+        </div>
+        <div>
+            <h3>تواصل معنا</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+    <p>جميع الحقوق محفوظة لموقع بيِّن © 2024</p>
+</footer>
+</body>
+</html>
