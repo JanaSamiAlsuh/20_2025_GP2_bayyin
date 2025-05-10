@@ -133,7 +133,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'mysql1234'  # Default MAMP password (if unchanged)
+app.config['MYSQL_PASSWORD'] = 'root'  # Default MAMP password (if unchanged)
 app.config['MYSQL_DB'] = 'bayyin'
 app.config['MYSQL_SSL_DISABLED'] = True  # Disable SSL
 
